@@ -14,7 +14,7 @@ body {
 
 /* ===== NAVBAR ===== */
 nav {
-    background: linear-gradient(90deg, #6b46c1, #d53f8c, #ed8936);
+    background: linear-gradient(90deg, #1a202c, #2b6cb0);
     padding: 15px 30px;
     display: flex;
     gap: 20px;
@@ -46,7 +46,7 @@ nav a:hover {
 .hero {
     text-align: center;
     padding: 70px 20px;
-    background: linear-gradient(135deg, #6b46c1, #d53f8c, #ed8936);
+    background: linear-gradient(135deg, #1a202c, #2b6cb0, #2f855a);
     color: white;
     animation: fadeIn 1s ease-in;
 }
@@ -184,7 +184,7 @@ button:hover {
 
 /* ===== FOOTER ===== */
 footer {
-    background: linear-gradient(90deg, #553c9a, #97266d);
+    background: linear-gradient(90deg, #1a202c, #2f855a);
     color: white;
     text-align: center;
     padding: 25px;
@@ -201,7 +201,7 @@ footer {
     text-align: center;
 }
 
-.stat h2 { font-size: 2.4rem; color: #2b6cb0; }
+.stat h2 { font-size: 2.4rem; color: #2f855a; }
 .stat p { color: #666; }
 
 /* ===== TESTIMONIOS ===== */
@@ -224,3 +224,4 @@ footer {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
