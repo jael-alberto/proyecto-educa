@@ -26,3 +26,7 @@ Registro de usuarios:
 Interfaz:
 - Pagina principal de bienvenida
 - Navegacion a modulos
+
+Base de datos (simulada):
+- Tabla de usuarios
+- Tabla de cursos
