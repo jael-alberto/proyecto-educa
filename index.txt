@@ -18,3 +18,7 @@ Funcionalidades previstas:
 Login:
 - Formulario de acceso
 - Validacion de usuario y contrasena
+
+Registro de usuarios:
+- Formulario de registro
+- Validacion de correo y contrasena
