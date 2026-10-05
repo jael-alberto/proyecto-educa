@@ -16,8 +16,8 @@
 
     <!-- PANTALLA DE BIENVENIDA (sin sesión) -->
     <section class="hero" id="bienvenida">
-        <h1>Bienvenido a Sistema Educa</h1>
-        <p>Inicia sesión o regístrate para acceder a la plataforma</p>
+        <h1>🎓 Bienvenido a Sistema Educa</h1>
+        <p>La plataforma para aprender, enseñar y crecer</p>
         <p style="margin-top:20px">
             <a href="login.html" style="color:white; background:#2b6cb0; padding:12px 24px; border-radius:8px; text-decoration:none; margin-right:10px;">Iniciar sesión</a>
             <a href="registro.html" style="color:#2b6cb0; background:white; padding:12px 24px; border-radius:8px; text-decoration:none;">Registrarse</a>
@@ -25,29 +25,52 @@
     </section>
 
     <!-- CONTENIDO PRINCIPAL (con sesión) -->
-    <main id="contenido" style="display:none">
-        <div class="grid">
-            <div class="card">
-                <h3>👩‍🎓 Estudiantes</h3>
-                <p>Gestiona el registro y seguimiento de estudiantes.</p>
+    <div id="contenido" style="display:none">
+        <section class="hero">
+            <h1>Panel Principal</h1>
+            <p>Tu centro de control educativo</p>
+        </section>
+
+        <main>
+            <div class="stats">
+                <div class="stat"><h2>+500</h2><p>Estudiantes</p></div>
+                <div class="stat"><h2>+30</h2><p>Cursos</p></div>
+                <div class="stat"><h2>+15</h2><p>Docentes</p></div>
+                <div class="stat"><h2>95%</h2><p>Satisfacción</p></div>
             </div>
-            <div class="card">
-                <h3>📚 Cursos</h3>
-                <p>Registra y organiza todos los cursos disponibles.</p>
+
+            <h2 style="text-align:center; color:#2b6cb0; margin-bottom:20px">¿Qué puedes hacer?</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>👩‍🎓 Estudiantes</h3>
+                    <p>Gestiona el registro y seguimiento de todos los estudiantes de la institución.</p>
+                </div>
+                <div class="card">
+                    <h3>📚 Cursos</h3>
+                    <p>Registra, organiza e inscríbete en los cursos disponibles.</p>
+                </div>
+                <div class="card">
+                    <h3>📝 Calificaciones</h3>
+                    <p>Controla y reporta las calificaciones de cada estudiante fácilmente.</p>
+                </div>
             </div>
-            <div class="card">
-                <h3>📝 Calificaciones</h3>
-                <p>Controla las calificaciones de cada estudiante.</p>
-            </div>
-        </div>
-    </main>
+
+            <h2 style="text-align:center; color:#2b6cb0; margin:40px 0 20px">Lo que dicen nuestros usuarios</h2>
+            <div class="testimonio">💬 "Sistema Educa me ayudó a organizar mis clases de forma increíble." — <strong>María G.</strong></div>
+            <div class="testimonio">💬 "La inscripción a cursos es rapidísima y la plataforma muy bonita." — <strong>Carlos R.</strong></div>
+            <div class="testimonio">💬 "Llevar las calificaciones ahora es súper sencillo." — <strong>Ana L.</strong></div>
+        </main>
+    </div>
+
+    <footer>
+        <p>© 2026 Sistema Educa — Todos los derechos reservados 🎓</p>
+    </footer>
 
     <script src="js/main.js"></script>
     <script>
         if (usuario) {
-            document.getElementById('bienvenida').style.display = 'none';
+            document.getElementById('bienvenida').remove();
             document.getElementById('contenido').style.display = 'block';
-            document.querySelector('.hero#bienvenida').remove();
         }
     </script>
 </body>

@@ -167,6 +167,38 @@ button:hover {
 
 .menu-perfil button { width: 100%; }
 
+/* ===== FOOTER ===== */
+footer {
+    background: #1a365d;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 60px;
+}
+
+/* ===== STATS ===== */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.stat h2 { font-size: 2.4rem; color: #2b6cb0; }
+.stat p { color: #666; }
+
+/* ===== TESTIMONIOS ===== */
+.testimonio {
+    background: white;
+    border-left: 5px solid #4299e1;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
 /* ===== ANIMACIONES ===== */
 @keyframes fadeIn {
     from { opacity: 0; }
