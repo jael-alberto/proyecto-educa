@@ -1,1 +1,16 @@
 Sistema Educa - Estructura base
+================================
+
+proyecto-educa/
+|-- index.html          (pagina principal)
+|-- css/
+|   |-- estilos.css     (estilos generales)
+|-- js/
+|   |-- main.js         (logica principal)
+|-- img/                (imagenes y recursos)
+|-- README.md           (documentacion)
+
+Funcionalidades previstas:
+- Gestion de estudiantes
+- Registro de cursos
+- Control de calificaciones
