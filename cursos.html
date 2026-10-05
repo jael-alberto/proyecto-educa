@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Educa - Cursos</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
@@ -10,78 +11,174 @@
         <span class="logo">🎓 Educa</span>
         <a href="index.html">Inicio</a>
         <a href="cursos.html">Cursos</a>
+        <a href="index.html#nosotros">Nosotros</a>
+        <a href="index.html#testimonios">Testimonios</a>
+        <a href="registro.html" class="btn-nav">Crear cuenta</a>
     </nav>
 
     <section class="hero">
-        <h1>🌈 Cursos Disponibles</h1>
-        <p>Explora nuestra oferta académica e inscríbete</p>
+        <span class="badge">📚 8 programas · 34 especializaciones</span>
+        <h1>Cursos con salida laboral real</h1>
+        <p>Cada programa incluye certificado verificable, mentoría en vivo y conexión con empresas contratantes</p>
     </section>
 
-    <main>
+    <main class="container">
+        <div class="seccion-titulo">
+            <h2>Todos los cursos</h2>
+            <p>Elige el programa que define tu futuro profesional</p>
+            <div class="linea"></div>
+        </div>
+
         <div class="grid">
+            <!-- 1 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/e53e3e/white?text=Programación+Web" alt="Programación Web">
-                <h3>💻 Programación Web</h3>
-                <p>HTML, CSS y JavaScript desde cero hasta crear páginas interactivas.</p>
-                <p><strong>Duración:</strong> 8 semanas · <strong>Modalidad:</strong> Online</p>
-                <a href="detalle.html?curso=web"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/1e3a8a/ffffff?text=Programaci%C3%B3n+Web" alt="Programación Web">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta azul">Tecnología</span>
+                        <span class="etiqueta verde">Online</span>
+                    </div>
+                    <h3>💻 Programación Web</h3>
+                    <span class="stars">★★★★★</span> <span class="reviews">(1,240 opiniones)</span>
+                    <p>HTML, CSS y JavaScript desde cero. Construye 12 proyectos reales y publica tu portafolio profesional.</p>
+                    <p><strong>👨‍🏫 Instructor:</strong> Carlos Méndez · 12 años de experiencia</p>
+                    <p><strong>⏱️ Duración:</strong> 8 semanas · 6 h/semana</p>
+                    <p class="precio">$320 <small>$520 antes</small></p>
+                    <a href="detalle.html?curso=web" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 2 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/38a169/white?text=Bases+de+Datos" alt="Bases de Datos">
-                <h3>🗄️ Bases de Datos</h3>
-                <p>Modelado de datos, consultas SQL y diseño de esquemas.</p>
-                <p><strong>Duración:</strong> 6 semanas · <strong>Modalidad:</strong> Híbrida</p>
-                <a href="detalle.html?curso=bd"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/14532d/ffffff?text=Bases+de+Datos" alt="Bases de Datos">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta verde">Datos</span>
+                        <span class="etiqueta negra">Híbrida</span>
+                    </div>
+                    <h3>🗄️ Bases de Datos</h3>
+                    <span class="stars">★★★★☆</span> <span class="reviews">(860 opiniones)</span>
+                    <p>SQL avanzado, modelado relacional y disño de esquemas para sistemas de producción reales.</p>
+                    <p><strong>👨‍🏫 Instructor:</strong> Laura Fernández · DBA certificada</p>
+                    <p><strong>⏱️ Duración:</strong> 6 semanas · 5 h/semana</p>
+                    <p class="precio">$280 <small>$450 antes</small></p>
+                    <a href="detalle.html?curso=bd" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 3 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/d69e2e/white?text=Diseño+UI/UX" alt="Diseño UI/UX">
-                <h3>🎨 Diseño UI/UX</h3>
-                <p>Diseño moderno, prototipos y experiencia de usuario.</p>
-                <p><strong>Duración:</strong> 5 semanas · <strong>Modalidad:</strong> Online</p>
-                <a href="detalle.html?curso=ux"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/0f172a/ffffff?text=Dise%C3%B1o+UI%2FUX" alt="Diseño UI/UX">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta azul">Diseño</span>
+                        <span class="etiqueta verde">Online</span>
+                    </div>
+                    <h3>🎨 Diseño UI/UX</h3>
+                    <span class="stars">★★★★★</span> <span class="reviews">(970 opiniones)</span>
+                    <p>Investigación de usuarios, prototipado en Figma y sistemas de diseño para productos reales.</p>
+                    <p><strong>👩‍🏫 Instructora:</strong> Valentina Cruz · Lead Designer</p>
+                    <p><strong>⏱️ Duración:</strong> 5 semanas · 4 h/semana</p>
+                    <p class="precio">$260 <small>$410 antes</small></p>
+                    <a href="detalle.html?curso=ux" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 4 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/3182ce/white?text=Ciberseguridad" alt="Ciberseguridad">
-                <h3>🔐 Ciberseguridad</h3>
-                <p>Fundamentos de seguridad, contraseñas y protección de datos.</p>
-                <p><strong>Duración:</strong> 6 semanas · <strong>Modalidad:</strong> Presencial</p>
-                <a href="detalle.html?curso=cyber"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/064e3b/ffffff?text=Ciberseguridad" alt="Ciberseguridad">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta negra">Seguridad</span>
+                        <span class="etiqueta azul">Presencial</span>
+                    </div>
+                    <h3>🔐 Ciberseguridad</h3>
+                    <span class="stars">★★★★★</span> <span class="reviews">(610 opiniones)</span>
+                    <p>Hacking ético, análisis de vulnerabilidades y respuesta a incidentes con laboratorio real.</p>
+                    <p><strong>👨‍🏫 Instructor:</strong> Rafael Ortiz · CISSP</p>
+                    <p><strong>⏱️ Duración:</strong> 6 semanas · 8 h/semana</p>
+                    <p class="precio">$390 <small>$620 antes</small></p>
+                    <a href="detalle.html?curso=cyber" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 5 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/805ad5/white?text=Inteligencia+Artificial" alt="Inteligencia Artificial">
-                <h3>🤖 Inteligencia Artificial</h3>
-                <p>Introducción a machine learning y redes neuronales básicas.</p>
-                <p><strong>Duración:</strong> 10 semanas · <strong>Modalidad:</strong> Online</p>
-                <a href="detalle.html?curso=ia"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/1e40af/ffffff?text=Inteligencia+Artificial" alt="Inteligencia Artificial">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta azul">Tendencia</span>
+                        <span class="etiqueta verde">Online</span>
+                    </div>
+                    <h3>🤖 Inteligencia Artificial</h3>
+                    <span class="stars">★★★★★</span> <span class="reviews">(1,510 opiniones)</span>
+                    <p>Machine learning aplicado, redes neuronales y visión por computadora con Python.</p>
+                    <p><strong>👩‍🏫 Instructora:</strong> Dra. Sofía Reyes · PhD en IA</p>
+                    <p><strong>⏱️ Duración:</strong> 10 semanas · 7 h/semana</p>
+                    <p class="precio">$450 <small>$700 antes</small></p>
+                    <a href="detalle.html?curso=ia" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 6 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/dd6b20/white?text=Marketing+Digital" alt="Marketing Digital">
-                <h3>📈 Marketing Digital</h3>
-                <p>Redes sociales, SEO y estrategias de publicidad en línea.</p>
-                <p><strong>Duración:</strong> 4 semanas · <strong>Modalidad:</strong> Híbrida</p>
-                <a href="detalle.html?curso=marketing"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/7c2d12/ffffff?text=Marketing+Digital" alt="Marketing Digital">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta verde">Negocios</span>
+                        <span class="etiqueta negra">Híbrida</span>
+                    </div>
+                    <h3>📈 Marketing Digital</h3>
+                    <span class="stars">★★★★☆</span> <span class="reviews">(700 opiniones)</span>
+                    <p>SEO, redes sociales y campañas pagadas para hacer crecer negocios reales desde cero.</p>
+                    <p><strong>👩‍🏫 Instructora:</strong> Camila Duarte · CMO</p>
+                    <p><strong>⏱️ Duración:</strong> 4 semanas · 4 h/semana</p>
+                    <p class="precio">$220 <small>$360 antes</small></p>
+                    <a href="detalle.html?curso=marketing" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 7 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/319795/white?text=Inglés+Técnico" alt="Inglés Técnico">
-                <h3>🌍 Inglés Técnico</h3>
-                <p>Vocabulario y comunicación profesional en tecnología.</p>
-                <p><strong>Duración:</strong> 12 semanas · <strong>Modalidad:</strong> Online</p>
-                <a href="detalle.html?curso=ingles"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/134e4a/ffffff?text=Ingl%C3%A9s+T%C3%A9cnico" alt="Inglés Técnico">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta azul">Idiomas</span>
+                        <span class="etiqueta verde">Online</span>
+                    </div>
+                    <h3>🌍 Inglés Técnico</h3>
+                    <span class="stars">★★★★★</span> <span class="reviews">(1,120 opiniones)</span>
+                    <p>Inglés para tecnología: entrevistas, documentación, stand-ups y comunicación con clientes.</p>
+                    <p><strong>👩‍🏫 Instructora:</strong> Emily Carter · CELTA</p>
+                    <p><strong>⏱️ Duración:</strong> 12 semanas · 3 h/semana</p>
+                    <p class="precio">$180 <small>$300 antes</small></p>
+                    <a href="detalle.html?curso=ingles" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
+
+            <!-- 8 -->
             <div class="card">
-                <img src="https://placehold.co/400x200/d53f8c/white?text=Desarrollo+Móvil" alt="Desarrollo Móvil">
-                <h3>📱 Desarrollo Móvil</h3>
-                <p>Crea apps para Android e iOS con tecnologías modernas.</p>
-                <p><strong>Duración:</strong> 8 semanas · <strong>Modalidad:</strong> Presencial</p>
-                <a href="detalle.html?curso=movil"><button>Ver más</button></a>
+                <img src="https://placehold.co/600x350/831843/ffffff?text=Desarrollo+M%C3%B3vil" alt="Desarrollo Móvil">
+                <div class="card-cuerpo">
+                    <div class="etiquetas">
+                        <span class="etiqueta negra">Tecnología</span>
+                        <span class="etiqueta azul">Presencial</span>
+                    </div>
+                    <h3>📱 Desarrollo Móvil</h3>
+                    <span class="stars">★★★★☆</span> <span class="reviews">(850 opiniones)</span>
+                    <p>React Native y Flutter: crea apps para Android e iOS y publícalas en las tiendas.</p>
+                    <p><strong>👨‍🏫 Instructor:</strong> Diego Santos · Mobile Lead</p>
+                    <p><strong>⏱️ Duración:</strong> 8 semanas · 6 h/semana</p>
+                    <p class="precio">$340 <small>$540 antes</small></p>
+                    <a href="detalle.html?curso=movil" class="btn btn-primario">Ver detalles</a>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer>
-        <p>© 2026 Sistema Educa — Todos los derechos reservados 🎓</p>
-    </footer>
-
     <script src="js/main.js"></script>
 </body>
 </html>
+
+
+

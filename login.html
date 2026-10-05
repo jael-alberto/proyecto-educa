@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema Educa - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Educa - Iniciar sesion</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -10,20 +11,29 @@
         <span class="logo">🎓 Educa</span>
         <a href="index.html">Inicio</a>
         <a href="cursos.html">Cursos</a>
+        <a href="registro.html" class="btn-nav">Crear cuenta</a>
     </nav>
 
-    <form id="formLogin">
-        <h2>Iniciar Sesión</h2>
-        <label for="usuario">Usuario</label>
-        <input type="text" id="usuario" placeholder="Tu usuario" required>
-        <label for="clave">Contraseña</label>
-        <input type="password" id="clave" placeholder="Tu contraseña" required>
-        <button type="submit">Entrar</button>
-        <p style="text-align:center; margin-top:15px">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
-    </form>
+    <section class="hero" style="padding:70px 24px">
+        <h1 style="font-size:2.4rem">Inicia sesion en tu cuenta</h1>
+        <p>Accede a tus cursos, postulaciones y certificados</p>
+    </section>
 
+    <main class="container" style="padding-top:0; margin-top:-40px">
+        <form id="formLogin">
+            <h2>🔐 Bienvenido de vuelta</h2>
+            <label for="usuario">Usuario o correo</label>
+            <input type="text" id="usuario" placeholder="Tu usuario" required>
+            <label for="clave">Contrasena</label>
+            <input type="password" id="clave" placeholder="Tu contrasena" required>
+            <button class="btn btn-primario" type="submit">Entrar a mi cuenta</button>
+            <p style="text-align:center; margin-top:18px">No tienes cuenta? <a href="registro.html" style="color:var(--azul); font-weight:600">Registrate aqui</a></p>
+        </form>
+    </main>
+
+    <script src="js/main.js"></script>
     <script>
-        document.getElementById('formLogin').addEventListener('submit', function(e) {
+        document.getElementById('formLogin').addEventListener('submit', function (e) {
             e.preventDefault();
             const nombre = document.getElementById('usuario').value;
             localStorage.setItem('usuarioEduca', JSON.stringify({ nombre: nombre, correo: nombre + '@educa.com' }));
