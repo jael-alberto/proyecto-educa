@@ -14,3 +14,7 @@ Funcionalidades previstas:
 - Gestion de estudiantes
 - Registro de cursos
 - Control de calificaciones
+
+Login:
+- Formulario de acceso
+- Validacion de usuario y contrasena
