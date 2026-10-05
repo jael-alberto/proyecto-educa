@@ -22,3 +22,7 @@ Login:
 Registro de usuarios:
 - Formulario de registro
 - Validacion de correo y contrasena
+
+Interfaz:
+- Pagina principal de bienvenida
+- Navegacion a modulos
