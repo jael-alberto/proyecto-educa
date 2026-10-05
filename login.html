@@ -14,13 +14,23 @@
         <a href="cursos.html">Cursos</a>
     </nav>
 
-    <form>
+    <form id="formLogin">
         <h2>Iniciar Sesión</h2>
         <label for="usuario">Usuario</label>
-        <input type="text" id="usuario" placeholder="Tu usuario">
+        <input type="text" id="usuario" placeholder="Tu usuario" required>
         <label for="clave">Contraseña</label>
-        <input type="password" id="clave" placeholder="Tu contraseña">
+        <input type="password" id="clave" placeholder="Tu contraseña" required>
         <button type="submit">Entrar</button>
+        <p style="text-align:center; margin-top:15px">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
     </form>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('usuario').value;
+            localStorage.setItem('usuarioEduca', JSON.stringify({ nombre: nombre, correo: nombre + '@educa.com' }));
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>

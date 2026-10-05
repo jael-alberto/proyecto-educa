@@ -126,6 +126,47 @@ button:hover {
     box-shadow: 0 5px 15px rgba(43,108,176,0.4);
 }
 
+/* ===== BURBUJA DE PERFIL ===== */
+.perfil { position: relative; }
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    color: #2b6cb0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.avatar:hover { transform: scale(1.1); }
+
+.menu-perfil {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 55px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    padding: 15px;
+    min-width: 220px;
+    animation: fadeIn 0.3s ease;
+    z-index: 100;
+}
+
+.menu-perfil.abierto { display: block; }
+
+.nombre-perfil { font-weight: bold; color: #2b6cb0; margin-bottom: 4px; }
+.correo-perfil { font-size: 0.85rem; color: #666; margin-bottom: 12px; }
+
+.menu-perfil button { width: 100%; }
+
 /* ===== ANIMACIONES ===== */
 @keyframes fadeIn {
     from { opacity: 0; }
