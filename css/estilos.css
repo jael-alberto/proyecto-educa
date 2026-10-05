@@ -14,7 +14,7 @@ body {
 
 /* ===== NAVBAR ===== */
 nav {
-    background: linear-gradient(90deg, #2b6cb0, #4299e1);
+    background: linear-gradient(90deg, #6b46c1, #d53f8c, #ed8936);
     padding: 15px 30px;
     display: flex;
     gap: 20px;
@@ -46,7 +46,7 @@ nav a:hover {
 .hero {
     text-align: center;
     padding: 70px 20px;
-    background: linear-gradient(135deg, #2b6cb0, #63b3ed);
+    background: linear-gradient(135deg, #6b46c1, #d53f8c, #ed8936);
     color: white;
     animation: fadeIn 1s ease-in;
 }
@@ -77,7 +77,22 @@ main { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-.card h3 { color: #2b6cb0; margin-bottom: 10px; }
+.card h3 { color: #6b46c1; margin-bottom: 10px; }
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.card:nth-child(1) { border-top: 5px solid #e53e3e; }
+.card:nth-child(2) { border-top: 5px solid #38a169; }
+.card:nth-child(3) { border-top: 5px solid #d69e2e; }
+.card:nth-child(4) { border-top: 5px solid #3182ce; }
+.card:nth-child(5) { border-top: 5px solid #805ad5; }
+.card:nth-child(6) { border-top: 5px solid #dd6b20; }
+.card:nth-child(7) { border-top: 5px solid #319795; }
+.card:nth-child(8) { border-top: 5px solid #d53f8c; }
 
 /* ===== FORMULARIOS ===== */
 form {
@@ -112,7 +127,7 @@ input:focus {
 button {
     width: 100%;
     padding: 12px;
-    background: linear-gradient(90deg, #2b6cb0, #4299e1);
+    background: linear-gradient(90deg, #38a169, #48bb78);
     color: white;
     border: none;
     border-radius: 8px;
@@ -123,7 +138,7 @@ button {
 
 button:hover {
     transform: scale(1.03);
-    box-shadow: 0 5px 15px rgba(43,108,176,0.4);
+    box-shadow: 0 5px 15px rgba(56,161,105,0.4);
 }
 
 /* ===== BURBUJA DE PERFIL ===== */
@@ -169,7 +184,7 @@ button:hover {
 
 /* ===== FOOTER ===== */
 footer {
-    background: #1a365d;
+    background: linear-gradient(90deg, #553c9a, #97266d);
     color: white;
     text-align: center;
     padding: 25px;
