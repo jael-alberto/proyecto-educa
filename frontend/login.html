@@ -3,42 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Educa - Iniciar sesion</title>
+    <title>Iniciar sesion | Sistema Educa</title>
+    <meta name="description" content="Accede a tu cuenta de Sistema Educa para seguir tu formacion y ver tus cursos.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav>
-        <span class="logo">🎓 Educa</span>
+    <nav aria-label="Navegacion principal">
+        <a class="logo" href="index.html">Educa</a>
         <a href="index.html">Inicio</a>
         <a href="cursos.html">Cursos</a>
-        <a href="registro.html" class="btn-nav">Crear cuenta</a>
+        <div class="nav-sesion" data-zona-sesion></div>
     </nav>
 
-    <section class="hero" style="padding:70px 24px">
-        <h1 style="font-size:2.4rem">Inicia sesion en tu cuenta</h1>
-        <p>Accede a tus cursos, postulaciones y certificados</p>
-    </section>
+    <main class="container container-formulario" id="contenido">
+        <form id="formLogin" novalidate>
+            <h1>Inicia sesion</h1>
+            <p class="subtitulo">Accede a tus cursos, matriculas y certificados.</p>
 
-    <main class="container" style="padding-top:0; margin-top:-40px">
-        <form id="formLogin">
-            <h2>🔐 Bienvenido de vuelta</h2>
-            <label for="usuario">Usuario o correo</label>
-            <input type="text" id="usuario" placeholder="Tu usuario" required>
-            <label for="clave">Contrasena</label>
-            <input type="password" id="clave" placeholder="Tu contrasena" required>
-            <button class="btn btn-primario" type="submit">Entrar a mi cuenta</button>
-            <p style="text-align:center; margin-top:18px">No tienes cuenta? <a href="registro.html" style="color:var(--azul); font-weight:600">Registrate aqui</a></p>
+            <div class="campo">
+                <label for="correo">Correo electronico</label>
+                <input type="email" id="correo" name="correo" autocomplete="email"
+                       inputmode="email" required aria-describedby="error-correo">
+                <p class="error-campo" id="error-correo" role="alert"></p>
+            </div>
+
+            <div class="campo">
+                <label for="contrasena">Contrasena</label>
+                <div class="con-boton">
+                    <input type="password" id="contrasena" name="contrasena"
+                           autocomplete="current-password" required aria-describedby="error-contrasena">
+                    <button type="button" class="btn-ver-contrasena" data-ver-contrasena
+                            aria-label="Mostrar la contrasena">Ver</button>
+                </div>
+                <p class="error-campo" id="error-contrasena" role="alert"></p>
+            </div>
+
+            <label class="casilla">
+                <input type="checkbox" id="recordarme" name="recordarme">
+                <span>Mantener la sesion abierta en este equipo</span>
+            </label>
+
+            <p class="error-general" id="error-general" role="alert"></p>
+
+            <button class="btn btn-primario btn-bloque" type="submit" id="botonEntrar">Entrar</button>
+
+            <p class="pie-formulario">
+                Todavia no tienes cuenta? <a href="registro.html">Crear una cuenta gratis</a>
+            </p>
         </form>
+
+        <aside class="panel-lateral" aria-label="Ventajas de la cuenta">
+            <h2>Por que crear una cuenta</h2>
+            <ul class="lista-ventajas">
+                <li>Guarda tu progreso en cada curso</li>
+                <li>Postula a grupos que tienen cupo abierto</li>
+                <li>Descarga tus certificados verificables</li>
+                <li>Recibe avisos de tus proximas evaluaciones</li>
+            </ul>
+            <div class="panel-cuentas-prueba">
+                <h3>Cuentas de prueba</h3>
+                <p>Para demostrar el sistema con datos de ejemplo:</p>
+                <ul>
+                    <li><code>estudiante@educa.com</code> · <code>EducaEstudiante2026!</code></li>
+                    <li><code>docente@educa.com</code> · <code>EducaDocente2026!</code></li>
+                    <li><code>admin@educa.com</code> · <code>EducaAdmin2026!</code></li>
+                </ul>
+            </div>
+        </aside>
     </main>
 
-    <script src="js/main.js"></script>
-    <script>
-        document.getElementById('formLogin').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const nombre = document.getElementById('usuario').value;
-            localStorage.setItem('usuarioEduca', JSON.stringify({ nombre: nombre, correo: nombre + '@educa.com' }));
-            window.location.href = 'index.html';
-        });
-    </script>
+    <script type="module" src="js/login.js"></script>
 </body>
 </html>
