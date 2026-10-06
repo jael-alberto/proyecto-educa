@@ -335,6 +335,24 @@ describe('Proteccion CSRF', () => {
     const r = await cliente.pedir('GET', '/api/auth/yo');
     assert.equal(r.json.datos.autenticado, false);
   });
+
+  test('no se puede renovar el token CSRF sin presentar el actual', async () => {
+    const cliente = crearCliente();
+    await cliente.iniciarSesion('estudiante@prueba.test', 'EstudiantePrueba2026!');
+    const original = cliente.csrf;
+
+    const sinToken = await cliente.pedir('POST', '/api/auth/verificar-csrf', {});
+    assert.equal(sinToken.estado, 403, 'el token CSRF se renovo sin comprobacion');
+
+    const conFalso = await cliente.pedir('POST', '/api/auth/verificar-csrf', {}, { 'X-CSRF-Token': 'inventado' });
+    assert.equal(conFalso.estado, 403);
+
+    // El token viejo sigue valiendo: los intentos fallidos no lo gastaron.
+    const r = await cliente.pedir('POST', '/api/auth/verificar-csrf', {}, { 'X-CSRF-Token': original });
+    assert.equal(r.estado, 200);
+    assert.notEqual(r.json.datos.csrfToken, original);
+    assert.ok(r.json.datos.csrfToken.length >= 32);
+  });
 });
 
 describe('Inyeccion SQL', () => {

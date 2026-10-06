@@ -1,9 +1,11 @@
 import { Router } from 'express';
-import { consultarUno } from '../db.js';
+import { consultarUno, ejecutar } from '../db.js';
 import { ErrorApi, MENSAJE_CREDENCIALES, controlador } from '../errores.js';
 import { limiteLogin } from '../seguridad.js';
-import { hashContrasena, verificarContrasena } from '../contrasenas.js';
+import { generarToken, hashContrasena, hashToken, verificarContrasena } from '../contrasenas.js';
 import {
+  ahoraIso,
+  cookieDeBorrado,
   crearSesion,
   resolverSesion,
   revocarSesion,
@@ -185,7 +187,6 @@ rutasAuth.post(
       ...contexto(req),
     });
 
-    const { cookieDeBorrado } = await import('../sesiones.js');
     res.setHeader('Set-Cookie', cookieDeBorrado());
     res.json({ datos: { mensaje: 'Sesion cerrada.' } });
   })
@@ -218,10 +219,18 @@ rutasAuth.post(
   '/verificar-csrf',
   requiereSesion,
   controlador(async (req, res) => {
-    const { generarToken, hashToken } = await import('../contrasenas.js');
-    const { ahoraIso } = await import('../sesiones.js');
+    // Exigir el token actual ANTES de emitir uno nuevo. Sin esta comprobacion
+    // el endpoint seria un punto debil: cualquiera que lograra que el
+    // navegador enviara la peticion (por ejemplo desde otro sitio, mientras la
+    // cookie viaja por SameSite=Lax) podria invalidar el token del usuario y
+    // dejar sus formularios sin poder enviarse. Rotar un token CSRF es, en si
+    // mismo, una accion que hay que autorizar.
+    const recibido = req.get('x-csrf-token');
+    if (!csrfValido(req.sesion, recibido)) {
+      throw new ErrorApi(403, 'csrf_invalido', 'La solicitud no supero la verificacion de seguridad.');
+    }
+
     const token = generarToken();
-    const { ejecutar } = await import('../db.js');
     ejecutar(
       'UPDATE sesiones SET csrf_token_hash = ? WHERE id = ?',
       hashToken(token),
