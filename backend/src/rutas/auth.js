@@ -196,6 +196,15 @@ rutasAuth.post(
  * GET /api/auth/yo
  * Devuelve la sesion actual. El frontend lo llama al cargar cada pagina para
  * saber si debe mostrar la portada de visitante o la de estudiante.
+ *
+ * Tambien entrega el token anti-CSRF la primera vez que se carga una pagina. El
+ * token vive en el servidor, pero en el navegador se necesita en cada
+ * pestana, asi que no puede quedarse solo en memoria: se pierde al navegar y
+ * el frontend se quedaria sin poder enviar ni un formulario.
+ *
+ * Por eso el token se emite SOLO cuando el cliente no presenta uno vigente. Si
+ * lo presenta y coincide, la sesion no se toca y el token sigue siendo el
+ * mismo, de modo que tener dos pestanas abiertas no invalida la una a la otra.
  */
 rutasAuth.get(
   '/yo',
@@ -205,7 +214,20 @@ rutasAuth.get(
     }
     tocarSesion(req.sesion.id);
     const cuenta = consultarUno(`${CUENTA_SIN_HASH} WHERE u.id = ?`, req.usuario.id);
-    res.json({ datos: { autenticado: true, usuario: cuenta ? perfilPublico(cuenta) : null } });
+
+    const datos = { autenticado: true, usuario: cuenta ? perfilPublico(cuenta) : null };
+
+    if (!csrfValido(req.sesion, req.get('x-csrf-token'))) {
+      const token = generarToken();
+      ejecutar(
+        'UPDATE sesiones SET csrf_token_hash = ? WHERE id = ?',
+        hashToken(token),
+        req.sesion.id
+      );
+      datos.csrfToken = token;
+    }
+
+    res.json({ datos });
   })
 );
 

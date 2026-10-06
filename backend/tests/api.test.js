@@ -145,6 +145,13 @@ function crearCliente() {
     get csrf() {
       return csrf;
     },
+    /** Simula que el navegador perdio el token, como al abrir otra pestana. */
+    olvidarCsrf() {
+      csrf = null;
+    },
+    guardarCsrf(token) {
+      csrf = token;
+    },
     async pedir(metodo, ruta, cuerpo, cabecerasExtra = {}) {
       const cabeceras = { ...cabecerasExtra };
       if (cuerpo !== undefined) cabeceras['Content-Type'] = 'application/json';
@@ -302,6 +309,73 @@ describe('Autenticacion', () => {
     const r = await cliente.pedir('GET', '/api/auth/yo');
     assert.equal(r.json.datos.usuario.rol, 'administrador');
     assert.equal(r.json.datos.usuario.id, idAdmin);
+  });
+});
+
+/**
+ * El token anti-CSRF vive en el servidor, pero el frontend lo necesita en cada
+ * pagina. Estas pruebas cubren el reparto, que es lo que permite que un POST
+ * funcione despues de navegar por el sitio.
+ */
+describe('Entrega del token anti-CSRF al frontend', () => {
+  test('/auth/yo emite un token cuando el cliente no presenta ninguno', async () => {
+    const cliente = crearCliente();
+    await cliente.iniciarSesion('estudiante@prueba.test', 'EstudiantePrueba2026!');
+    cliente.olvidarCsrf(); // como si la pagina se acabara de cargar
+
+    const r = await cliente.pedir('GET', '/api/auth/yo');
+    assert.equal(r.json.datos.autenticado, true);
+    assert.equal(typeof r.json.datos.csrfToken, 'string');
+    assert.ok(r.json.datos.csrfToken.length >= 32);
+  });
+
+  test('el token emitido sirve para un POST posterior', async () => {
+    const cliente = crearCliente();
+    await cliente.iniciarSesion('estudiante@prueba.test', 'EstudiantePrueba2026!');
+    cliente.olvidarCsrf();
+
+    const emitido = await cliente.pedir('GET', '/api/auth/yo');
+    const r = await cliente.pedir(
+      'POST',
+      '/api/auth/logout',
+      {},
+      { 'X-CSRF-Token': emitido.json.datos.csrfToken }
+    );
+    assert.equal(r.estado, 200);
+  });
+
+  test('presentar el token vigente lo conserva y no genera otro', async () => {
+    // Importa para el caso de dos pestanas abiertas: cargar la segunda pagina
+    // no debe dejar sin token a la primera.
+    const cliente = crearCliente();
+    await cliente.iniciarSesion('estudiante@prueba.test', 'EstudiantePrueba2026!');
+    const original = cliente.csrf;
+
+    const r = await cliente.pedir('GET', '/api/auth/yo', undefined, {
+      'X-CSRF-Token': original,
+    });
+    assert.equal(r.json.datos.autenticado, true);
+    assert.equal(r.json.datos.csrfToken, undefined, 'no debe rotar el token si es valido');
+  });
+
+  test('el token anterior deja de servir cuando se emite uno nuevo', async () => {
+    const cliente = crearCliente();
+    await cliente.iniciarSesion('estudiante@prueba.test', 'EstudiantePrueba2026!');
+    const antiguo = cliente.csrf;
+
+    // Se pierde el token en el navegador (otra pestana, almacenamiento limpio)
+    // y se pide uno nuevo.
+    cliente.olvidarCsrf();
+    const emitido = await cliente.pedir('GET', '/api/auth/yo');
+    const nuevo = emitido.json.datos.csrfToken;
+    assert.notEqual(nuevo, antiguo);
+
+    // El token viejo ya no debe servir para cerrar sesion.
+    const r = await cliente.pedir('POST', '/api/auth/logout', {}, {
+      'X-CSRF-Token': antiguo,
+    });
+    assert.equal(r.estado, 403);
+    assert.equal(r.json.error, 'csrf_invalido');
   });
 });
 

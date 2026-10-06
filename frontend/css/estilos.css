@@ -1,46 +1,147 @@
 /* ==========================================
    SISTEMA DE DISEÑO - SISTEMA EDUCA
+   ==========================================
+   Un solo archivo, ordenado por bloques, para que se entienda de un vistazo
+   qué estilo vive dónde.
+
+   Dos decisiones que no son estéticas:
+
+   1. El foco visible NO se quita. En varios sitios del proyecto anterior había
+      `outline: none` sin nada en su lugar, y eso dejaba a quien navega con
+      teclado sin ninguna señal de dónde estaba. Aquí el foco se ve.
+
+   2. Cada tamaño de texto y de botón está en rem, y hay un bloque `@media`
+      al final para la pantalla estrecha. Nada depende de píxeles fijos.
    ========================================== */
+
 :root {
+    /* Color */
     --negro: #0f172a;
     --negro-2: #1e293b;
+    --gris-borde: #e2e8f0;
+    --gris-fondo: #f8fafc;
+    --gris-texto: #475569;
+    --gris-claro: #94a3b8;
     --azul: #2563eb;
     --azul-osc: #1d4ed8;
     --verde: #16a34a;
     --verde-osc: #15803d;
+    --verde-claro: #4ade80;
+    --rojo: #dc2626;
+    --rojo-osc: #b91c1c;
+    --ambar: #f59e0b;
     --blanco: #ffffff;
-    --gris-fondo: #f8fafc;
-    --gris-texto: #475569;
+
+    /* Forma */
+    --radio: 16px;
+    --radio-chico: 10px;
     --sombra: 0 4px 24px rgba(15, 23, 42, 0.08);
     --sombra-hover: 0 20px 45px rgba(15, 23, 42, 0.16);
-    --radio: 16px;
     --transicion: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Medidas */
+    --ancho-maximo: 1180px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--gris-fondo);
     color: var(--negro-2);
     line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-h1, h2, h3, h4 { line-height: 1.2; font-weight: 800; color: var(--negro); }
-a { text-decoration: none; color: inherit; }
-.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+main { flex: 1; padding: 48px 0; }
 
-/* ===== NAVBAR ===== */
+h1, h2, h3, h4 { line-height: 1.2; font-weight: 800; color: var(--negro); }
+
+a { color: inherit; }
+
+.container {
+    max-width: var(--ancho-maximo);
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+}
+
+.centro { text-align: center; margin-top: 36px; }
+
+/* ==========================================
+   BASE DE ACCESIBILIDAD
+   ========================================== */
+
+/**
+ * Enlace de salto. Es lo primero que hay en el DOM y permanece invisible hasta
+ * que alguien navega con el teclado. Sin esto, quien use el teclado tiene que
+ * pasar por el menú entero en cada página para llegar al contenido.
+ */
+.salto-contenido {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+    background: var(--blanco);
+    color: var(--negro);
+    padding: 12px 20px;
+    border-radius: 0 0 var(--radio-chico) var(--radio-chico);
+    font-weight: 700;
+    box-shadow: var(--sombra);
+    transition: top var(--transicion);
+}
+
+.salto-contenido:focus { top: 0; }
+
+/**
+ * Contenido solo para lectores de pantalla.
+ *
+ * Necesario en la tabla de grupos: la columna de botones se anuncia como
+ * "Postularme", pero ver esa palabra en cada celda sería ruido visual. Con
+ * esta clase se lee y no se ve.
+ */
+.solo-lector {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/** Foco visible y coherente en TODO lo interactivo. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--ambar);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ==========================================
+   NAVEGACIÓN
+   ========================================== */
 nav {
     position: sticky;
     top: 0;
     z-index: 200;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(12px);
+    background: var(--negro);
     padding: 16px 40px;
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 20px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -50,67 +151,111 @@ nav .logo {
     font-weight: 800;
     letter-spacing: -0.5px;
     margin-right: auto;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
-nav a {
+nav > a:not(.logo) {
     color: #cbd5e1;
     font-weight: 500;
     font-size: 0.95rem;
     padding: 8px 14px;
-    border-radius: 10px;
+    border-radius: var(--radio-chico);
     transition: all var(--transicion);
 }
 
-nav a:hover { color: var(--blanco); background: rgba(37, 99, 235, 0.25); transform: translateY(-2px); }
+nav > a:not(.logo):hover {
+    color: var(--blanco);
+    background: rgba(37, 99, 235, 0.25);
+}
+
+/** Marca visual de la página en la que se está. */
+nav > a[aria-current='page'] {
+    color: var(--blanco);
+    background: rgba(37, 99, 235, 0.35);
+}
+
+.nav-sesion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-sesion .btn-pequeno { color: var(--blanco); }
 
 .btn-nav {
     background: var(--azul) !important;
     color: var(--blanco) !important;
     font-weight: 600;
+    padding: 9px 18px !important;
+    border-radius: var(--radio-chico) !important;
 }
+
 .btn-nav:hover { background: var(--azul-osc) !important; }
 
-/* ===== HERO ===== */
+/* ==========================================
+   PORTADA
+   ========================================== */
 .hero {
     position: relative;
     overflow: hidden;
     text-align: center;
-    padding: 110px 24px;
+    padding: 90px 24px;
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #14532d 100%);
     color: var(--blanco);
 }
 
-.hero::after {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(37,99,235,0.35), transparent 70%);
-    top: -200px; right: -150px;
-    animation: flotar 8s ease-in-out infinite;
+.hero h1 {
+    color: var(--blanco);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: -1.5px;
+    margin-bottom: 18px;
+    position: relative;
 }
 
-.hero h1 { color: var(--blanco); font-size: 3.2rem; letter-spacing: -1.5px; margin-bottom: 18px; }
-.hero p { font-size: 1.25rem; color: #cbd5e1; max-width: 640px; margin: 0 auto 32px; }
+.hero p {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    max-width: 660px;
+    margin: 0 auto 32px;
+    position: relative;
+}
 
 .badge {
     display: inline-block;
     background: rgba(22, 163, 74, 0.18);
     border: 1px solid var(--verde);
-    color: #4ade80;
+    color: var(--verde-claro);
     padding: 7px 18px;
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 22px;
-    animation: fadeUp 0.8s ease;
+    position: relative;
 }
 
-.hero-acciones { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero-acciones {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+}
 
-/* ===== BOTONES ===== */
+/** Saludo que solo aparece cuando hay sesión iniciada. */
+.saludo-sesion {
+    background: var(--blanco);
+    border-left: 5px solid var(--verde);
+    border-radius: var(--radio);
+    padding: 28px 32px;
+    margin-bottom: 8px;
+    box-shadow: var(--sombra);
+}
+
+.saludo-sesion h2 { margin-bottom: 8px; }
+.saludo-sesion p { color: var(--gris-texto); margin-bottom: 18px; }
+
+/* ==========================================
+   BOTONES
+   ========================================== */
 .btn {
     display: inline-block;
     padding: 14px 32px;
@@ -119,34 +264,170 @@ nav a:hover { color: var(--blanco); background: rgba(37, 99, 235, 0.25); transfo
     font-size: 1rem;
     cursor: pointer;
     border: none;
+    text-align: center;
     transition: all var(--transicion);
 }
 
-.btn-primario { background: var(--azul); color: var(--blanco); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35); }
-.btn-primario:hover { background: var(--azul-osc); transform: translateY(-3px); box-shadow: 0 16px 35px rgba(37, 99, 235, 0.5); }
+.btn:disabled,
+.btn[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
 
-.btn-verde { background: var(--verde); color: var(--blanco); box-shadow: 0 10px 25px rgba(22, 163, 74, 0.35); }
-.btn-verde:hover { background: var(--verde-osc); transform: translateY(-3px); box-shadow: 0 16px 35px rgba(22, 163, 74, 0.5); }
+.btn-pequeno { padding: 9px 18px; font-size: 0.9rem; }
+.btn-bloque { width: 100%; }
+
+/** Botón con forma de enlace. Para "ver todos los cursos" dentro de un texto. */
+.enlace-boton {
+    background: none;
+    border: none;
+    color: var(--azul);
+    font: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+}
+
+.enlace-boton:hover { color: var(--azul-osc); }
+
+/* Sobre fondo oscuro */
+.btn-primario {
+    background: var(--azul);
+    color: var(--blanco);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primario:hover:not(:disabled) {
+    background: var(--azul-osc);
+    transform: translateY(-2px);
+}
+
+.btn-verde {
+    background: var(--verde);
+    color: var(--blanco);
+    box-shadow: 0 10px 25px rgba(22, 163, 74, 0.3);
+}
+
+.btn-verde:hover:not(:disabled) { background: var(--verde-osc); transform: translateY(-2px); }
 
 .btn-blanco { background: var(--blanco); color: var(--negro); }
-.btn-blanco:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+.btn-blanco:hover { transform: translateY(-2px); }
 
-.btn-outline { background: transparent; color: var(--blanco); border: 2px solid rgba(255,255,255,0.4); }
-.btn-outline:hover { border-color: var(--blanco); background: rgba(255,255,255,0.1); }
+/** Sobre fondo claro el borde va oscuro, no blanco translúcido. */
+.btn-outline {
+    background: transparent;
+    color: var(--negro);
+    border: 2px solid var(--gris-borde);
+}
 
-button { font-family: inherit; }
+.btn-outline:hover:not(:disabled) {
+    border-color: var(--azul);
+    color: var(--azul);
+    background: rgba(37, 99, 235, 0.06);
+}
 
-/* ===== SECCIONES ===== */
-main { padding: 70px 0; }
+/** Dentro del hero oscuro sí lleva el borde claro. */
+.hero .btn-outline {
+    color: var(--blanco);
+    border-color: rgba(255, 255, 255, 0.5);
+}
 
-.seccion { padding: 80px 0; }
-.seccion-titulo { text-align: center; margin-bottom: 50px; }
-.seccion-titulo h2 { font-size: 2.4rem; letter-spacing: -1px; margin-bottom: 12px; }
+.hero .btn-outline:hover {
+    color: var(--blanco);
+    border-color: var(--blanco);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================
+   AVISOS
+   ==========================================
+   `aria-live="polite"` + `role="status"` los pone `main.js`, para que un lector
+   de pantalla anuncie el aviso sin robarle el foco al usuario.
+   ========================================== */
+.avisos {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: min(380px, calc(100vw - 48px));
+}
+
+.aviso {
+    background: var(--blanco);
+    border-left: 5px solid var(--azul);
+    border-radius: var(--radio-chico);
+    padding: 14px 18px;
+    box-shadow: var(--sombra-hover);
+    font-size: 0.95rem;
+    animation: entraAviso 0.3s ease;
+}
+
+.aviso-info { border-left-color: var(--azul); }
+.aviso-exito { border-left-color: var(--verde); }
+.aviso-error { border-left-color: var(--rojo); }
+
+/* ==========================================
+   SECCIONES
+   ========================================== */
+.seccion { padding: 64px 0; }
+
+.seccion-titulo {
+    text-align: center;
+    margin-bottom: 44px;
+}
+
+.seccion-titulo h2 {
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+}
+
 .seccion-titulo p { color: var(--gris-texto); font-size: 1.1rem; }
-.seccion-titulo .linea { width: 70px; height: 4px; background: var(--verde); margin: 18px auto 0; border-radius: 4px; }
 
-/* ===== GRIDS Y CARDS ===== */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; }
+.seccion-titulo .linea {
+    width: 70px;
+    height: 4px;
+    background: var(--verde);
+    margin: 18px auto 0;
+    border-radius: 4px;
+}
+
+.cabecera-pagina { margin-bottom: 36px; }
+.cabecera-pagina h1 { margin-bottom: 12px; }
+.cabecera-pagina p { color: var(--gris-texto); max-width: 640px; }
+
+.cargando { color: var(--gris-texto); text-align: center; padding: 32px 0; }
+
+.panel-registro {
+    background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    color: var(--blanco);
+    border-radius: 24px;
+    padding: 56px 40px;
+    text-align: center;
+}
+
+.panel-registro h2 {
+    color: var(--blanco);
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.panel-registro p { color: #cbd5e1; margin-bottom: 28px; }
+
+/* ==========================================
+   TARJETAS Y REJILLAS
+   ========================================== */
+.grid,
+.rejilla-cursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 26px;
+}
 
 .card {
     background: var(--blanco);
@@ -158,36 +439,100 @@ main { padding: 70px 0; }
     flex-direction: column;
 }
 
-.card:hover { transform: translateY(-10px); box-shadow: var(--sombra-hover); }
+.card:hover { transform: translateY(-6px); box-shadow: var(--sombra-hover); }
 
 .card-cuerpo { padding: 24px; flex: 1; display: flex; flex-direction: column; }
-.card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+.card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+.card p { color: var(--gris-texto); font-size: 0.95rem; }
 
-.card img { width: 100%; height: 190px; object-fit: cover; display: block; }
+.card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+}
 
-/* ===== ETIQUETAS ===== */
-.etiquetas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+/* ---------- Tarjeta de curso ---------- */
+.tarjeta-curso {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    transition: all var(--transicion);
+    display: flex;
+    flex-direction: column;
+}
 
-.etiqueta {
+.tarjeta-curso:hover { transform: translateY(-6px); box-shadow: var(--sombra-hover); }
+
+.tarjeta-curso img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.tarjeta-cuerpo {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tarjeta-curso h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.tarjeta-curso h3 a:hover { color: var(--azul); text-decoration: underline; }
+.tarjeta-meta { color: var(--gris-texto); font-size: 0.9rem; margin-bottom: 12px; }
+
+.tarjeta-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--gris-borde);
+    flex-wrap: wrap;
+}
+
+.precio { font-size: 1.5rem; font-weight: 800; color: var(--negro); }
+.precio s { font-size: 1rem; color: var(--gris-claro); font-weight: 500; }
+
+/* ---------- Etiquetas e insignias ---------- */
+.etiquetas {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    list-style: none;
+}
+
+.etiquetas li {
     font-size: 0.75rem;
     font-weight: 700;
     padding: 5px 12px;
     border-radius: 999px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
+    background: rgba(15, 23, 42, 0.06);
+    color: var(--negro-2);
 }
 
-.etiqueta.azul { background: rgba(37, 99, 235, 0.12); color: var(--azul); }
-.etiqueta.verde { background: rgba(22, 163, 74, 0.12); color: var(--verde); }
-.etiqueta.negra { background: rgba(15, 23, 42, 0.08); color: var(--negro); }
+.insignia {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 11px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
 
-.precio { font-size: 1.8rem; font-weight: 800; color: var(--negro); margin: 8px 0; }
-.precio small { font-size: 0.9rem; color: var(--gris-texto); font-weight: 500; }
+.insignia-destacado { background: rgba(245, 158, 11, 0.16); color: #92400e; }
 
-.stars { color: #f59e0b; font-size: 0.95rem; }
-.reviews { color: var(--gris-texto); font-size: 0.9rem; }
-
-/* ===== STATS ===== */
+/* ==========================================
+   ESTADÍSTICAS
+   ========================================== */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -199,33 +544,189 @@ main { padding: 70px 0; }
 }
 
 .stat { text-align: center; }
-.stat h2 { font-size: 2.8rem; color: var(--verde); letter-spacing: -1px; }
-.stat p { color: #94a3b8; font-weight: 500; }
 
-/* ===== TESTIMONIOS ===== */
-.testimonio {
+.stat h2 {
+    font-size: 2.8rem;
+    color: var(--verde-claro);
+    letter-spacing: -1px;
+}
+
+.stat p { color: var(--gris-claro); font-weight: 500; }
+
+/* ==========================================
+   CATÁLOGO
+   ========================================== */
+.filtros {
     background: var(--blanco);
     border-radius: var(--radio);
-    padding: 28px;
+    padding: 24px;
     box-shadow: var(--sombra);
-    border-top: 4px solid var(--azul);
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 18px;
+    align-items: end;
+    max-width: none;
 }
 
-.testimonio .autor { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.campo-boton { display: flex; gap: 10px; }
+.campo-boton .btn { flex: 1; }
 
-.avatar-mini {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--azul), var(--verde));
+.resultados {
+    color: var(--gris-texto);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.vacio {
+    text-align: center;
+    color: var(--gris-texto);
+    padding: 60px 20px;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+/* ==========================================
+   DETALLE DEL CURSO
+   ========================================== */
+.migas-pan {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.88rem;
+    color: var(--gris-texto);
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.migas-pan a { color: var(--azul); }
+.migas-pan a:hover { text-decoration: underline; }
+
+.detalle-cabecera {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 36px;
+    align-items: start;
+    margin-bottom: 48px;
+}
+
+.detalle-imagen {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.detalle-subtitulo { color: var(--gris-texto); margin-bottom: 14px; }
+.detalle-precio { font-size: 2rem; font-weight: 800; color: var(--negro); margin-bottom: 20px; }
+.detalle-precio s { font-size: 1.2rem; color: var(--gris-claro); font-weight: 500; }
+.detalle-descripcion { color: var(--negro-2); font-size: 1.05rem; }
+.detalle-nivel { color: var(--gris-texto); margin-top: 12px; font-style: italic; }
+
+.detalle-curso section {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    padding: 32px;
+    box-shadow: var(--sombra);
+    margin-bottom: 24px;
+}
+
+.detalle-curso section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gris-borde);
+}
+
+/* ---------- Temario ---------- */
+.modulos { list-style: none; counter-reset: modulo; }
+
+.modulos li {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gris-borde);
+}
+
+.modulos li:last-child { border-bottom: none; }
+
+.modulos h3 {
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.modulo-orden {
+    background: var(--azul);
     color: var(--blanco);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
 }
 
-/* ===== FORMULARIOS ===== */
+.modulos p { color: var(--gris-texto); font-size: 0.95rem; }
+.modulo-tiempo { font-size: 0.85rem; color: var(--gris-claro); margin-top: 4px; }
+
+/* ---------- Tabla de grupos ---------- */
+.tabla-grupos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.tabla-grupos caption {
+    text-align: left;
+    font-weight: 700;
+    color: var(--negro);
+    padding-bottom: 12px;
+}
+
+/* La cabecera se repite si la tabla se parte en varias pantallas. */
+.tabla-grupos thead { display: table-header-group; }
+
+.tabla-grupos th,
+.tabla-grupos td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--gris-borde);
+    vertical-align: middle;
+}
+
+.tabla-grupos thead th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gris-texto);
+    border-bottom: 2px solid var(--gris-borde);
+}
+
+.tabla-grupos tbody tr:hover { background: var(--gris-fondo); }
+.tabla-grupos tbody th { font-weight: 700; }
+
+/* ==========================================
+   FORMULARIOS
+   ==========================================
+   `container-formulario` es el contenedor de dos columnas: el formulario y el
+   panel lateral. El `form` a secas sigue siendo una tarjeta blanca centrada,
+   como en el resto del proyecto.
+   ========================================== */
+.container-formulario {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+    max-width: 1000px;
+}
+
 form {
     background: var(--blanco);
-    padding: 40px;
+    padding: 36px;
     border-radius: 20px;
     box-shadow: var(--sombra);
     max-width: 460px;
@@ -233,114 +734,418 @@ form {
     animation: fadeUp 0.7s ease;
 }
 
+.container-formulario form { max-width: none; margin: 0; }
+
+form h1 { font-size: 1.9rem; margin-bottom: 6px; }
 form h2 { text-align: center; margin-bottom: 26px; font-size: 1.8rem; }
 
-label { display: block; margin-bottom: 7px; font-weight: 600; font-size: 0.9rem; color: var(--negro-2); }
+.subtitulo { color: var(--gris-texto); margin-bottom: 28px; }
 
-input {
+/* ---------- Campos ---------- */
+.campo { margin-bottom: 20px; }
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--negro-2);
+}
+
+input,
+select {
     width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 20px;
-    border: 2px solid #e2e8f0;
+    padding: 13px 15px;
+    border: 2px solid var(--gris-borde);
     border-radius: 12px;
     font-family: inherit;
     font-size: 1rem;
+    background: var(--blanco);
+    color: var(--negro-2);
+    transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+select {
+    cursor: pointer;
+    /* La flecha nativa se deja: es el control que el sistema operativo
+       dibuja y el usuario ya sabe interpretarlo. */
+}
+
+input:focus,
+select:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+input[aria-invalid='true'],
+select[aria-invalid='true'] {
+    border-color: var(--rojo);
+}
+
+input:disabled { background: var(--gris-fondo); cursor: not-allowed; }
+
+.ayuda { font-size: 0.82rem; color: var(--gris-texto); margin-top: 6px; }
+
+.error-campo {
+    font-size: 0.84rem;
+    color: var(--rojo);
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.error-campo:empty,
+.error-general:empty { display: none; }
+
+.error-general {
+    background: rgba(220, 38, 38, 0.08);
+    border-left: 4px solid var(--rojo);
+    color: var(--rojo-osc);
+    padding: 12px 16px;
+    border-radius: var(--radio-chico);
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+}
+
+.fila-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+/* Campo con un botón pegado, para el "Ver" de la contraseña. */
+.con-boton { position: relative; display: flex; }
+
+.con-boton input { padding-right: 78px; }
+
+.btn-ver-contrasena {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    bottom: 6px;
+    background: var(--gris-fondo);
+    border: none;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gris-texto);
+    cursor: pointer;
     transition: all var(--transicion);
 }
 
-input:focus {
-    border-color: var(--azul);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    outline: none;
+.btn-ver-contrasena:hover { background: var(--gris-borde); color: var(--negro); }
+
+/* ---------- Casilla de verificación ---------- */
+.casilla {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 
-/* ===== PERFIL ===== */
+.casilla input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: var(--azul);
+}
+
+/* ---------- Reglas de contraseña en vivo ---------- */
+.reglas {
+    list-style: none;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.reglas li {
+    font-size: 0.82rem;
+    color: var(--gris-texto);
+    padding-left: 24px;
+    position: relative;
+}
+
+/* El círculo es el "✓" o el "•", hecho con texto y no con un icono. */
+.reglas li::before {
+    content: '\25CF';
+    position: absolute;
+    left: 6px;
+    color: var(--gris-claro);
+}
+
+.reglas li.cumple { color: var(--verde-osc); font-weight: 600; }
+.reglas li.cumple::before { content: '\2713'; color: var(--verde); }
+
+.pie-formulario {
+    text-align: center;
+    margin-top: 22px;
+    color: var(--gris-texto);
+    font-size: 0.95rem;
+}
+
+.pie-formulario a { color: var(--azul); font-weight: 700; }
+.pie-formulario a:hover { text-decoration: underline; }
+
+/* ---------- Panel lateral ---------- */
+.panel-lateral {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--sombra);
+    position: sticky;
+    top: 96px;
+}
+
+.panel-lateral h2 { font-size: 1.25rem; margin-bottom: 18px; }
+.panel-lateral h3 { font-size: 1rem; margin-bottom: 10px; }
+
+.lista-ventajas { list-style: none; }
+
+.lista-ventajas li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+    color: var(--negro-2);
+    font-size: 0.95rem;
+}
+
+.lista-ventajas li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    color: var(--verde);
+    font-weight: 800;
+}
+
+.panel-cuentas-prueba {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--gris-borde);
+}
+
+.panel-cuentas-prueba p { font-size: 0.88rem; color: var(--gris-texto); }
+.panel-cuentas-prueba ul { list-style: none; margin-top: 12px; }
+
+.panel-cuentas-prueba li {
+    font-size: 0.8rem;
+    color: var(--gris-texto);
+    margin-bottom: 10px;
+    padding: 10px;
+    background: var(--gris-fondo);
+    border-radius: 8px;
+    word-break: break-all;
+}
+
+code {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 0.85em;
+    color: var(--negro);
+}
+
+/* ==========================================
+   PERFIL
+   ==========================================
+   El menú se abre con `<details>`, no con JavaScript: funciona sin
+   JavaScript, se puede cerrar con el teclado y no necesita código que adivine
+   si ya estaba abierto.
+   ========================================== */
 .perfil { position: relative; }
 
+.perfil summary {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--blanco);
+}
+
+.perfil summary::-webkit-details-marker { display: none; }
+
 .avatar {
-    width: 44px; height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--azul), var(--verde));
     color: var(--blanco);
     font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: transform var(--transicion);
-    border: 2px solid rgba(255,255,255,0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
 }
 
-.avatar:hover { transform: scale(1.1) rotate(5deg); }
+.perfil-nombre { font-size: 0.92rem; font-weight: 600; }
 
 .menu-perfil {
-    display: none;
     position: absolute;
-    right: 0; top: 60px;
+    right: 0;
+    top: calc(100% + 12px);
     background: var(--blanco);
     border-radius: 14px;
-    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+    box-shadow: var(--sombra-hover);
     padding: 18px;
     min-width: 250px;
-    animation: fadeUp 0.25s ease;
     z-index: 300;
+    animation: fadeUp 0.25s ease;
 }
 
-.menu-perfil.abierto { display: block; }
 .nombre-perfil { font-weight: 700; color: var(--negro); margin-bottom: 4px; }
-.correo-perfil { font-size: 0.85rem; color: var(--gris-texto); margin-bottom: 14px; }
-.menu-perfil .btn { width: 100%; padding: 11px; font-size: 0.9rem; }
+.correo-perfil { font-size: 0.85rem; color: var(--gris-texto); word-break: break-all; }
 
-/* ===== FOOTER ===== */
-footer { background: var(--negro); color: #94a3b8; margin-top: 40px; }
+.rol-perfil {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(37, 99, 235, 0.12);
+    color: var(--azul);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+}
+
+.menu-perfil .btn { color: var(--negro); border-color: var(--gris-borde); }
+.menu-perfil .btn:hover { border-color: var(--rojo); color: var(--rojo); }
+
+/* ==========================================
+   PIE DE PÁGINA
+   ========================================== */
+footer {
+    background: var(--negro);
+    color: var(--gris-claro);
+    padding: 56px 0 0;
+    margin-top: 40px;
+}
 
 .footer-grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 40px;
-    padding: 60px 0 40px;
+    padding-bottom: 40px;
 }
 
 .footer-grid h4 { color: var(--blanco); margin-bottom: 18px; font-size: 1rem; }
 .footer-grid ul { list-style: none; }
-.footer-grid li { margin-bottom: 10px; }
-.footer-grid a { font-size: 0.92rem; transition: color var(--transicion); }
-.footer-grid a:hover { color: var(--verde); }
+.footer-grid li { margin-bottom: 10px; font-size: 0.92rem; }
+.footer-grid p { font-size: 0.92rem; }
+
+.footer-grid a { color: var(--gris-claro); transition: color var(--transicion); }
+.footer-grid a:hover { color: var(--verde-claro); text-decoration: underline; }
 
 .footer-bottom {
-    border-top: 1px solid #1e293b;
+    border-top: 1px solid var(--negro-2);
     padding: 24px 0;
     text-align: center;
     font-size: 0.88rem;
 }
 
-.social { display: flex; gap: 12px; margin-top: 18px; }
-.social a {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: #1e293b;
-    display: flex; align-items: center; justify-content: center;
-    transition: all var(--transicion);
-}
-.social a:hover { background: var(--azul); transform: translateY(-3px); }
-
-/* ===== ANIMACIONES ===== */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+/* ==========================================
+   ANIMACIONES
+   ==========================================
+   `.revelar` empieza invisible y `main.js` le pone `.visible` al entrar en
+   pantalla. Quien pidió menos movimiento lo recibe ya visible desde el
+   principio, sin esperar al observador. Ver la regla en `main.js`.
+   ========================================== */
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes flotar {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-40px, 40px); }
+@keyframes entraAviso {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-.revelar { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.revelar {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
 .revelar.visible { opacity: 1; transform: translateY(0); }
 
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2.2rem; }
+form { animation: fadeUp 0.7s ease; }
+
+/* ==========================================
+   PANTALLA ESTRECHA
+   ========================================== */
+@media (max-width: 900px) {
+    .detalle-cabecera { grid-template-columns: 1fr; }
+    .container-formulario { grid-template-columns: 1fr; }
+    .panel-lateral { position: static; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
-    nav { padding: 14px 20px; gap: 12px; }
-    nav a { font-size: 0.85rem; padding: 6px 10px; }
+}
+
+@media (max-width: 768px) {
+    nav { padding: 12px 16px; gap: 8px; flex-wrap: wrap; }
+    nav > a:not(.logo) { font-size: 0.85rem; padding: 6px 10px; }
+    nav .logo { font-size: 1.15rem; }
+    .hero { padding: 64px 20px; }
+    .hero p { font-size: 1.05rem; }
+    .seccion { padding: 44px 0; }
+    .stats { padding: 32px 20px; border-radius: var(--radio); }
+    .stat h2 { font-size: 2.1rem; }
+    .fila-campos { grid-template-columns: 1fr; gap: 0; }
+    form { padding: 24px 20px; }
+    .detalle-curso section { padding: 22px; }
+    .avisos { top: auto; bottom: 16px; right: 16px; left: 16px; max-width: none; }
+    .tarjeta-pie { flex-direction: column; align-items: stretch; }
+    .tarjeta-pie .btn { width: 100%; }
+
+    /* La tabla de grupos no cabe: cada fila se convierte en una ficha y la
+       cabecera se oculta, porque sus textos ya están en la propia fila. */
+    .tabla-grupos thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+    .tabla-grupos tr { display: block; border: 1px solid var(--gris-borde); border-radius: 12px; margin-bottom: 14px; padding: 6px; }
+    .tabla-grupos th, .tabla-grupos td { display: flex; justify-content: space-between; gap: 16px; border-bottom: none; padding: 8px 10px; text-align: right; }
+    .tabla-grupos tbody th { justify-content: flex-start; text-align: left; }
+    .tabla-grupos tbody tr:hover { background: transparent; }
+    .tabla-grupos td::before {
+        content: attr(data-etiqueta);
+        font-weight: 700;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: var(--gris-texto);
+        text-align: left;
+    }
+}
+
+/* ==========================================
+   PREFERENCIAS DEL SISTEMA
+   ==========================================
+   Si el sistema pide menos movimiento, no se anima nada: ni las entradas, ni
+   las transiciones. El contenido aparece ya en su sitio.
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .revelar { opacity: 1; transform: none; }
+}
+
+/* ==========================================
+   IMPRESIÓN
+   ==========================================
+   Al imprimir el temario o la ficha de un curso, la navegación y los botones
+   estorban. Se quitan.
+   ========================================== */
+@media print {
+    nav, footer, .avisos, .filtros, .hero-acciones, .salto-contenido { display: none !important; }
+    body { background: var(--blanco); }
+    .detalle-curso section, .card, .tarjeta-curso { box-shadow: none; border: 1px solid var(--gris-borde); }
 }

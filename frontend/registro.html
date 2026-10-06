@@ -3,53 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Educa - Crear cuenta</title>
+    <title>Crear cuenta | Sistema Educa</title>
+    <meta name="description" content="Crea tu cuenta de Sistema Educa y empieza a formarte en los cursos del catalogo.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav>
-        <span class="logo">🎓 Educa</span>
+    <nav aria-label="Navegacion principal">
+        <a class="logo" href="index.html">Educa</a>
         <a href="index.html">Inicio</a>
         <a href="cursos.html">Cursos</a>
-        <a href="login.html">Iniciar sesion</a>
+        <div class="nav-sesion" data-zona-sesion></div>
     </nav>
 
-    <section class="hero" style="padding:70px 24px">
-        <h1 style="font-size:2.4rem">Crea tu cuenta gratis</h1>
-        <p>Unete a mas de 12,000 estudiantes y empieza hoy</p>
-    </section>
+    <main class="container container-formulario" id="contenido">
+        <form id="formRegistro" novalidate>
+            <h1>Crea tu cuenta</h1>
+            <p class="subtitulo">Tarda menos de un minuto y no pide tarjeta.</p>
 
-    <main class="container" style="padding-top:0; margin-top:-40px">
-        <form id="formRegistro">
-            <h2>🚀 Registrarse</h2>
-            <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre" placeholder="Tu nombre" required>
-            <label for="correo">Correo electronico</label>
-            <input type="email" id="correo" placeholder="tu@correo.com" required>
-            <label for="clave">Contrasena</label>
-            <input type="password" id="clave" placeholder="Crea una contrasena" required>
-            <label for="confirmar">Confirmar contrasena</label>
-            <input type="password" id="confirmar" placeholder="Repite tu contrasena" required>
-            <button class="btn btn-verde" type="submit">Crear mi cuenta</button>
-            <p style="text-align:center; margin-top:18px">Ya tienes cuenta? <a href="login.html" style="color:var(--azul); font-weight:600">Inicia sesion</a></p>
+            <div class="fila-campos">
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" autocomplete="given-name" required>
+                    <p class="error-campo" id="error-nombre" role="alert"></p>
+                </div>
+                <div class="campo">
+                    <label for="apellidos">Apellidos</label>
+                    <input type="text" id="apellidos" name="apellidos" autocomplete="family-name" required>
+                    <p class="error-campo" id="error-apellidos" role="alert"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="correo">Correo electronico</label>
+                <input type="email" id="correo" name="correo" autocomplete="email" inputmode="email" required>
+                <p class="ayuda">Aqui te enviaremos la confirmacion y tus certificados.</p>
+                <p class="error-campo" id="error-correo" role="alert"></p>
+            </div>
+
+            <div class="campo">
+                <label for="documento">Documento de identidad</label>
+                <input type="text" id="documento" name="documento" placeholder="001-11-2233"
+                       inputmode="numeric" autocomplete="off">
+                <p class="ayuda">Solo digitos y guiones. Se puede dejar vacio.</p>
+                <p class="error-campo" id="error-documento" role="alert"></p>
+            </div>
+
+            <div class="fila-campos">
+                <div class="campo">
+                    <label for="telefono">Telefono</label>
+                    <input type="tel" id="telefono" name="telefono" autocomplete="tel"
+                           placeholder="+1 809 555 0100">
+                    <p class="error-campo" id="error-telefono" role="alert"></p>
+                </div>
+                <div class="campo">
+                    <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" autocomplete="bday">
+                    <p class="error-campo" id="error-fecha_nacimiento" role="alert"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="programa_id">Programa de estudios</label>
+                <select id="programa_id" name="programa_id">
+                    <option value="">Todavia no lo he decidido</option>
+                </select>
+                <p class="error-campo" id="error-programa_id" role="alert"></p>
+            </div>
+
+            <div class="campo">
+                <label for="contrasena">Contrasena</label>
+                <div class="con-boton">
+                    <input type="password" id="contrasena" name="contrasena"
+                           autocomplete="new-password" required aria-describedby="reglas-contrasena">
+                    <button type="button" class="btn-ver-contrasena" data-ver-contrasena="contrasena"
+                            aria-label="Mostrar la contrasena">Ver</button>
+                </div>
+                <ul class="reglas" id="reglas-contrasena">
+                    <li data-regla="largo">Entre 10 y 128 caracteres</li>
+                    <li data-regla="minuscula">Al menos una letra minuscula</li>
+                    <li data-regla="mayuscula">Al menos una letra mayuscula</li>
+                    <li data-regla="digito">Al menos un digito</li>
+                    <li data-regla="simbolo">Al menos un simbolo</li>
+                </ul>
+            </div>
+
+            <div class="campo">
+                <label for="confirmar">Repite la contrasena</label>
+                <input type="password" id="confirmar" name="confirmar" autocomplete="new-password" required>
+                <p class="error-campo" id="error-confirmar" role="alert"></p>
+            </div>
+
+            <label class="casilla">
+                <input type="checkbox" id="acepta_terminos" name="acepta_terminos" required>
+                <span>Acepto los terminos y condiciones y la politica de privacidad</span>
+            </label>
+            <p class="error-campo" id="error-acepta_terminos" role="alert"></p>
+
+            <p class="error-general" id="error-general" role="alert"></p>
+
+            <button class="btn btn-primario btn-bloque" type="submit" id="botonRegistro">Crear mi cuenta</button>
+
+            <p class="pie-formulario">
+                Ya tienes cuenta? <a href="login.html">Inicia sesion</a>
+            </p>
         </form>
+
+        <aside class="panel-lateral" aria-label="Resumen del formulario">
+            <h2>Que recibes al crear la cuenta</h2>
+            <ul class="lista-ventajas">
+                <li>Acceso immediateo a los 8 cursos del catalogo</li>
+                <li>Postulacion a los grupos con cupo disponible</li>
+                <li>Seguimiento de tu progreso y tus calificaciones</li>
+                <li>Certificados con codigo de verificacion</li>
+            </ul>
+            <div class="panel-cuentas-prueba">
+                <h3>Sobre tus datos</h3>
+                <p>
+                    Este es un proyecto de demostracion y los datos no salen de tu equipo.
+                    Aun asi, la contrasena se guarda cifrada con scrypt y jamas se
+                    muestra de nuevo, ni siquiera a quien administra el sistema.
+                </p>
+            </div>
+        </aside>
     </main>
 
-    <script src="js/main.js"></script>
-    <script>
-        document.getElementById('formRegistro').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const correo = document.getElementById('correo').value;
-            const clave = document.getElementById('clave').value;
-            const confirmar = document.getElementById('confirmar').value;
-            if (clave !== confirmar) {
-                alert('Las contrasenas no coinciden. Intentalo de nuevo.');
-                return;
-            }
-            localStorage.setItem('usuarioEduca', JSON.stringify({ nombre: nombre, correo: correo }));
-            window.location.href = 'index.html';
-        });
-    </script>
+    <script type="module" src="js/registro.js"></script>
 </body>
 </html>
