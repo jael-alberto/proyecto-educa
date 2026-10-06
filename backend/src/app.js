@@ -5,6 +5,7 @@ import { cabecerasSeguridad, corsPermitido, limiteGeneral } from './seguridad.js
 import { ErrorApi, enviarError } from './errores.js';
 import { leerSesion } from './autorizacion.js';
 import { rutasAuth } from './rutas/auth.js';
+import { rutasRegistro } from './rutas/registro.js';
 import { rutasCatalogo } from './rutas/catalogo.js';
 
 export function crearAplicacion() {
@@ -42,6 +43,7 @@ export function crearAplicacion() {
 
   // 8. Rutas de la API.
   app.use('/api/auth', rutasAuth);
+  app.use('/api/auth', rutasRegistro);
   app.use('/api/catalogo', rutasCatalogo);
 
   // 9. Ruta no encontrada, dentro y fuera de /api.
