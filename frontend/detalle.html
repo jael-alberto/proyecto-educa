@@ -3,22 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Educa - Detalle del curso</title>
+    <title>Detalle del curso | Sistema Educa</title>
+    <meta name="description" content="Programa, contenido y grupos disponibles del curso.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav>
-        <span class="logo">🎓 Educa</span>
+    <nav aria-label="Navegacion principal">
+        <a class="logo" href="index.html">Educa</a>
         <a href="index.html">Inicio</a>
-        <a href="cursos.html">Cursos</a>
-        <a href="index.html#nosotros">Nosotros</a>
-        <a href="index.html#testimonios">Testimonios</a>
-        <a href="registro.html" class="btn-nav">Crear cuenta</a>
+        <a href="cursos.html" aria-current="page">Cursos</a>
+        <div class="nav-sesion" data-zona-sesion></div>
     </nav>
 
-    <div id="detalle"></div>
+    <main class="container" id="contenido">
+        <nav class="migas-pan" aria-label="Ruta de navegacion">
+            <a href="index.html">Inicio</a>
+            <span aria-hidden="true">/</span>
+            <a href="cursos.html">Cursos</a>
+            <span aria-hidden="true">/</span>
+            <span id="migaCurso">Cargando...</span>
+        </nav>
 
-    <script src="js/main.js"></script>
-    <script src="js/cursos.js"></script>
+        <div id="detalleCurso" aria-busy="true">
+            <p class="cargando">Cargando el curso...</p>
+        </div>
+
+        <div id="cursoNoEncontrado" hidden>
+            <h1>Ese curso no existe</h1>
+            <p>Puede que el enlace este mal escrito o que el curso ya no este publicado.</p>
+            <a class="btn btn-primario" href="cursos.html">Volver al catalogo</a>
+        </div>
+    </main>
+
+    <script type="module" src="js/detalle.js"></script>
 </body>
 </html>

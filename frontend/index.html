@@ -3,216 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Educa - Tu carrera empieza aquí</title>
+    <title>Sistema Educa | Tu carrera empieza aqui</title>
+    <meta name="description" content="Catalogo de cursos con certificacion, grupos programados y seguimiento de matriculas.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav>
-        <span class="logo">🎓 Educa</span>
-        <a href="index.html">Inicio</a>
+    <nav aria-label="Navegacion principal">
+        <a class="logo" href="index.html">Educa</a>
+        <a href="index.html" aria-current="page">Inicio</a>
         <a href="cursos.html">Cursos</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#testimonios">Testimonios</a>
-        <a href="registro.html" class="btn-nav">Crear cuenta</a>
+        <div class="nav-sesion" data-zona-sesion></div>
     </nav>
 
-    <!-- ===== PORTADA SIN SESIÓN ===== -->
-    <section class="hero" id="bienvenida">
-        <span class="badge">✨ +12,000 estudiantes ya formados</span>
-        <h1>Transforma tu futuro profesional con Sistema Educa</h1>
-        <p>Cursos ONLINE con certificación, mentores expertos y rutas de aprendizaje diseñadas para que consigas tu primer empleo en tecnología.</p>
-        <div class="hero-acciones">
-            <a href="registro.html" class="btn btn-verde">🚀 Empieza gratis</a>
-            <a href="cursos.html" class="btn btn-outline">Ver cursos</a>
-        </div>
-    </section>
-
-    <!-- ===== CONTENIDO CON SESIÓN ===== -->
-    <div id="contenido" style="display:none">
+    <main id="contenido">
         <section class="hero">
-            <span class="badge">👋 Sesión iniciada</span>
-            <h1>Bienvenido de vuelta, <span id="nombreUsuario"></span></h1>
-            <p>Continúa tu aprendizaje. Tienes 3 cursos en progreso y 2 certificados por obtener.</p>
+            <span class="badge" id="insigniaHero">Cargando datos del sistema...</span>
+            <h1>Transforma tu futuro profesional con Sistema Educa</h1>
+            <p>
+                Cursos con certificacion, grupos programados y fechas claras.
+                Puedes ver el catalogo completo sin crear cuenta.
+            </p>
             <div class="hero-acciones">
-                <a href="cursos.html" class="btn btn-verde">📚 Seguir aprendiendo</a>
-                <a href="#testimonios" class="btn btn-outline">Ver comunidad</a>
+                <a href="registro.html" class="btn btn-primario">Empieza gratis</a>
+                <a href="cursos.html" class="btn btn-outline">Ver cursos</a>
             </div>
         </section>
 
-        <main class="container">
-            <!-- STATS -->
-            <div class="stats">
-                <div class="stat"><h2 data-contador="12500">0</h2><p>Estudiantes activos</p></div>
-                <div class="stat"><h2 data-contador="34">0</h2><p>Cursos especializados</p></div>
-                <div class="stat"><h2 data-contador="96">0</h2><p>% de aprobación</p></div>
-                <div class="stat"><h2 data-contador="3200">0</h2><p>Empleos generados</p></div>
-            </div>
+        <div class="container">
+            <section class="saludo-sesion" id="saludoSesion" hidden aria-live="polite"></section>
 
-            <!-- SERVICIOS -->
-            <section class="seccion" id="nosotros">
-                <div class="seccion-titulo">
-                    <h2>Todo lo que necesitas en un solo lugar</h2>
-                    <p>Una plataforma completa para gestionar tu formación académica</p>
-                    <div class="linea"></div>
-                </div>
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta azul">Estudiantes</span></div>
-                            <h3>👩‍🎓 Gestión de Estudiantes</h3>
-                            <p>Registra matrículas, sigue el progreso académico y communica con docentes en un solo lugar. Historial completo de cada alumno.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta verde">Académico</span></div>
-                            <h3>📚 Catálogo de Cursos</h3>
-                            <p>34 programas con planes de estudio actualizados, requisitos claros y horarios flexibles para que te adaptes a tu ritmo.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta negra">Evaluación</span></div>
-                            <h3>📝 Calificaciones y Reportes</h3>
-                            <p>Notas automáticas, boletines descargables en PDF y gráficas de rendimiento que muestran tu crecimiento semana a semana.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta azul">Carrera</span></div>
-                            <h3>💼 Bolsa de Trabajo</h3>
-                            <p>3,200 empresas conectadas. Postula a vacantes, recibe ofertas y negocia tu salario con datos reales del mercado.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta verde">Certificación</span></div>
-                            <h3>🎓 Certificados Verificables</h3>
-                            <p>Diplomas con código QR verificable por el mundo. Valorados por empresas de tecnologia y la industria.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-cuerpo">
-                            <div class="etiquetas"><span class="etiqueta negra">Mentoría</span></div>
-                            <h3>🧑‍🏫 Mentores Expertos</h3>
-                            <p>Sesiones en vivo semanales con profesionales de la industria. Resuelve dudas y aprende de casos reales, no de teoría.</p>
-                        </div>
-                    </div>
+            <section class="seccion">
+                <div class="stats" id="estadisticas" aria-busy="true">
+                    <p class="cargando">Cargando estadisticas...</p>
                 </div>
             </section>
 
-            <!-- CATEGORÍAS DESTACADAS -->
             <section class="seccion">
                 <div class="seccion-titulo">
-                    <h2>Cursos más solicitados</h2>
-                    <p>Lo que el mercado está pidiendo ahora mismo</p>
+                    <h2>Lo que hace la plataforma</h2>
+                    <p>Catalogo, matriculas y certificacion en un solo lugar</p>
                     <div class="linea"></div>
                 </div>
                 <div class="grid">
-                    <div class="card">
-                        <img src="https://placehold.co/600x350/1e3a8a/ffffff?text=Inteligencia+Artificial" alt="IA">
+                    <div class="card revelar">
                         <div class="card-cuerpo">
-                            <h3>🤖 Inteligencia Artificial</h3>
-                            <p>Machine learning, redes neuronales y visión por computadora.</p>
-                            <p class="precio">$450 <small>/ 10 semanas</small></p>
-                            <a href="detalle.html?curso=ia" class="btn btn-primario">Ver curso</a>
+                            <h3>Catalogo de cursos</h3>
+                            <p>
+                                Cada curso muestra su programa, modalidad, dificultad,
+                                duracion y precio real, tomados de la base de datos.
+                            </p>
                         </div>
                     </div>
-                    <div class="card">
-                        <img src="https://placehold.co/600x350/14532d/ffffff?text=Programaci%C3%B3n+Web" alt="Web">
+                    <div class="card revelar">
                         <div class="card-cuerpo">
-                            <h3>💻 Programación Web</h3>
-                            <p>HTML, CSS y JavaScript con proyectos reales y deployment.</p>
-                            <p class="precio">$320 <small>/ 8 semanas</small></p>
-                            <a href="detalle.html?curso=web" class="btn btn-primario">Ver curso</a>
+                            <h3>Grupos con fecha y cupo</h3>
+                            <p>
+                                Puedes ver el horario, el aula y cuantas plazas quedan
+                                libres antes de postularte.
+                            </p>
                         </div>
                     </div>
-                    <div class="card">
-                        <img src="https://placehold.co/600x350/0f172a/ffffff?text=Ciberseguridad" alt="Ciber">
+                    <div class="card revelar">
                         <div class="card-cuerpo">
-                            <h3>🔐 Ciberseguridad</h3>
-                            <p>Protección de datos, hacking ético y respuesta a incidentes.</p>
-                            <p class="precio">$390 <small>/ 6 semanas</small></p>
-                            <a href="detalle.html?curso=cyber" class="btn btn-primario">Ver curso</a>
+                            <h3>Certificados verificables</h3>
+                            <p>
+                                Cada certificado emitido tiene un codigo de
+                                verificacion para quien lo revisiona.
+                            </p>
                         </div>
                     </div>
-                </div>
-                <div style="text-align:center; margin-top:36px">
-                    <a href="cursos.html" class="btn btn-verde">Ver los 8 cursos →</a>
+                    <div class="card revelar">
+                        <div class="card-cuerpo">
+                            <h3>Cuentas protegidas</h3>
+                            <p>
+                                Contrasenas cifradas con scrypt, sesiones en cookie
+                                HttpOnly y tokens anti-CSRF en cada envio.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- TESTIMONIOS -->
-            <section class="seccion" id="testimonios">
+            <section class="seccion">
                 <div class="seccion-titulo">
-                    <h2>Historias de éxito</h2>
-                    <p>Personas reales que cambiaron de carrera con nosotros</p>
+                    <h2>Cursos destacados</h2>
+                    <p>Los que la plataforma tiene marcados como destacados</p>
                     <div class="linea"></div>
                 </div>
-                <div class="grid">
-                    <div class="testimonio">
-                        <span class="stars">★★★★★</span>
-                        <p>"Gracias a Educa conseguí mi primer trabajo como desarrolladora web. El mentor revisó mi portafolio hasta que quedó impecable."</p>
-                        <div class="autor">
-                            <div class="avatar-mini">M</div>
-                            <div><strong>María González</strong><br><small>Desarrolladora Web · 2025</small></div>
-                        </div>
-                    </div>
-                    <div class="testimonio">
-                        <span class="stars">★★★★★</span>
-                        <p>"Estudiaba de noche mientras trabajaba. La flexibilidad me permitió titularme en 8 meses sin dejar mi empleo."</p>
-                        <div class="autor">
-                            <div class="avatar-mini">C</div>
-                            <div><strong>Carlos Ramírez</strong><br><small>Analista de Datos · 2026</small></div>
-                        </div>
-                    </div>
-                    <div class="testimonio">
-                        <span class="stars">★★★★★</span>
-                        <p>"El certificado verificado me abrió puertas en empresas donde nunca me habían recuperado antes. Dupliqué mi sueldo."</p>
-                        <div class="autor">
-                            <div class="avatar-mini">A</div>
-                            <div><strong>Ana Lorenzo</strong><br><small>Especialista en Ciberseguridad · 2026</small></div>
-                        </div>
-                    </div>
+                <div class="rejilla-cursos" id="cursosDestacados" aria-busy="true">
+                    <p class="cargando">Cargando cursos...</p>
+                </div>
+                <div class="centro">
+                    <a href="cursos.html" class="btn btn-primario">Ver todo el catalogo</a>
                 </div>
             </section>
 
-            <!-- CTA FINAL -->
-            <section class="hero" style="border-radius:24px; margin-bottom:20px">
-                <h2>¿Listo para dar el salto?</h2>
-                <p>Únete a más de 12,000 estudiantes que ya están construyendo su futuro con nosotros.</p>
-                <div class="hero-acciones">
-                    <a href="registro.html" class="btn btn-verde">Crear mi cuenta gratis</a>
-                    <a href="cursos.html" class="btn btn-blanco">Explorar cursos</a>
+            <section class="seccion">
+                <div class="panel-registro">
+                    <h2>Listo para dar el salto</h2>
+                    <p>Crea tu cuenta y empieza a postulate a los grupos abiertos.</p>
+                    <div class="hero-acciones">
+                        <a href="registro.html" class="btn btn-primario">Crear mi cuenta gratis</a>
+                        <a href="cursos.html" class="btn btn-outline">Explorar cursos</a>
+                    </div>
                 </div>
             </section>
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <script src="js/main.js"></script>
-    <script>
-        if (usuario) {
-            document.getElementById('bienvenida').remove();
-            document.getElementById('contenido').style.display = 'block';
-            document.getElementById('nombreUsuario').textContent = usuario.nombre.split(' ')[0];
-        }
-
-        // Contadores animados
-        function animarContadores() {
-            document.querySelectorAll('[data-contador]').forEach(el => {
-                const objetivo = parseInt(el.dataset.contador);
-                let actual = 0;
-                const paso = Math.ceil(objetivo / 40);
-                const timer = setInterval(() => {
-                    actual += paso;
-                    if (actual >= objetivo) { actual = objetivo; clearInterval(timer); }
-                    el.textContent = actual.toLocaleString() + (objetivo === 96 ? '%' : '+');
-                }, 30);
-            });
-        }
-        setTimeout(animarContadores, 600);
-    </script>
+    <script type="module" src="js/inicio.js"></script>
 </body>
 </html>
-
-
