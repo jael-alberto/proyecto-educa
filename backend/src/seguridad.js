@@ -51,7 +51,11 @@ export function corsPermitido() {
       // herramienta local como curl o Postman.
       if (!origin) return callback(null, true);
       if (config.origenesPermitidos.includes(origin)) return callback(null, true);
-      return callback(new Error('Origen no permitido por CORS'));
+      // No se devuelve Error a proposito. Con callback(null, false) la
+      // peticion sigue su curso pero SIN cabecera Access-Control-Allow-Origin,
+      // y el navegador bloquea la respuesta por si mismo. Lanzar un error
+      // convertiria una peticion bloqueada en un 500 en el log del servidor.
+      return callback(null, false);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

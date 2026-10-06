@@ -50,6 +50,27 @@ export function enviarError(res, error) {
     });
   }
 
+  // Errores de las capas intermedias (body-parser, CORS) traen su propio
+  // codigo HTTP en status o statusCode. Respetarlo es lo correcto: un cuerpo
+  // demasiado grande es un 413, no un fallo del servidor, y un JSON mal
+  // formado es un 400. Ademas evita llenar el log con ruido.
+  const codigo = error?.status ?? error?.statusCode;
+  if (Number.isInteger(codigo) && codigo >= 400 && codigo < 500) {
+    if (codigo === 413) {
+      return res.status(413).json({
+        error: 'cuerpo_demasiado_grande',
+        mensaje: 'La peticion supera el tamano maximo admitido.',
+      });
+    }
+    if (codigo === 400 || error?.type === 'entity.parse.failed') {
+      return res.status(400).json({
+        error: 'peticion_invalida',
+        mensaje: 'El cuerpo de la peticion no es un JSON valido.',
+      });
+    }
+    return res.status(codigo).json({ error: 'peticion_rechazada', mensaje: 'La peticion fue rechazada.' });
+  }
+
   // Cualquier otro error es un fallo no previsto: se registra en el servidor
   // y se responde con un mensaje generico. Nunca se devuelve el stack trace,
   // porque revela rutas, versiones y estructura interna.
