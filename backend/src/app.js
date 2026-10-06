@@ -3,6 +3,8 @@ import cookieParser from 'cookie-parser';
 import { config } from './config.js';
 import { cabecerasSeguridad, corsPermitido, limiteGeneral } from './seguridad.js';
 import { ErrorApi, enviarError } from './errores.js';
+import { leerSesion } from './autorizacion.js';
+import { rutasAuth } from './rutas/auth.js';
 import { rutasCatalogo } from './rutas/catalogo.js';
 
 export function crearAplicacion() {
@@ -25,7 +27,11 @@ export function crearAplicacion() {
   // 5. Limite global de peticiones.
   app.use('/api', limiteGeneral());
 
-  // 6. Comprobacion de salud: util para verificar que el servidor arranca.
+  // 6. Resolver la sesion actual a partir de la cookie. No bloquea: cada
+  //    ruta decide si la necesita. Va antes de las rutas de la API.
+  app.use('/api', leerSesion);
+
+  // 7. Comprobacion de salud: util para verificar que el servidor arranca.
   app.get('/api/salud', (req, res) => {
     res.json({
       estado: 'activo',
@@ -34,15 +40,16 @@ export function crearAplicacion() {
     });
   });
 
-  // 7. Rutas de la API.
+  // 8. Rutas de la API.
+  app.use('/api/auth', rutasAuth);
   app.use('/api/catalogo', rutasCatalogo);
 
-  // 8. Ruta no encontrada, dentro y fuera de /api.
+  // 9. Ruta no encontrada, dentro y fuera de /api.
   app.use((req, res) => {
     enviarError(res, ErrorApi.noEncontrado('El endpoint'));
   });
 
-  // 9. Manejador central de errores.
+  // 10. Manejador central de errores.
   app.use((error, req, res, next) => {
     if (res.headersSent) return next(error);
     enviarError(res, error);
