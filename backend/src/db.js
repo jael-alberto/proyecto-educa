@@ -28,6 +28,13 @@ export function abrirBaseDatos() {
 /** Version del esquema aplicada. Bumpear en cada migracion nueva. */
 export const VERSION_ESQUEMA = 1;
 
+/** Resultado de la ultima aplicacion del esquema, para poder informarlo. */
+let ultimoResultadoEsquema = null;
+
+export function estadoEsquema() {
+  return ultimoResultadoEsquema;
+}
+
 /**
  * Ejecuta solo la seccion DDL del esquema (hasta el marcador @fin-ddl).
  *
@@ -39,12 +46,16 @@ export const VERSION_ESQUEMA = 1;
 export function aplicarEsquema(db = conexion) {
   const actual = db.prepare('PRAGMA user_version').get().user_version;
   if (actual >= VERSION_ESQUEMA) {
-    return { aplicada: false, version: actual };
+    ultimoResultadoEsquema = { aplicada: false, version: actual };
+    return ultimoResultadoEsquema;
   }
 
   const texto = readFileSync(config.baseDatos.esquema, 'utf8');
-  const corte = texto.indexOf('-- @fin-ddl');
-  const ddl = corte > 0 ? texto.slice(0, corte) : texto;
+  // El marcador se busca ANCLADO a una linea completa. Con indexOf el esquema
+  // se romperia en silencio: su cabecera menciona @fin-ddl antes de definirlo,
+  // y el corte caeria en la documentacion en vez del final del DDL.
+  const fin = texto.search(/^-- @fin-ddl\s*$/m);
+  const ddl = fin > 0 ? texto.slice(0, fin) : texto;
 
   db.exec('BEGIN IMMEDIATE');
   try {
@@ -56,7 +67,8 @@ export function aplicarEsquema(db = conexion) {
     throw error;
   }
 
-  return { aplicada: true, version: VERSION_ESQUEMA };
+  ultimoResultadoEsquema = { aplicada: true, version: VERSION_ESQUEMA };
+  return ultimoResultadoEsquema;
 }
 
 export function db() {
