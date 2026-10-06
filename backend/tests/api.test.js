@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 const raizBackend = resolve(aqui, '..');
-const rutaBase = resolve(raizBackend, 'datos', 'pruebas.db');
+const rutaBase = resolve(raizBackend, 'datos', 'pruebas-api.db');
 
 // La configuracion se lee al importar los modulos, asi que las variables de
 // entorno se fijan ANTES del import dinamico.
@@ -26,11 +26,15 @@ for (const sufijo of ['', '-wal', '-shm']) {
   if (existsSync(rutaBase + sufijo)) rmSync(rutaBase + sufijo);
 }
 process.env.NODE_ENV = 'test';
-process.env.BASE_DATOS = 'datos/pruebas.db';
+process.env.BASE_DATOS = 'datos/pruebas-api.db';
 process.env.SECRETO_SESION = 'clave-de-pruebas-que-no-se-usa-en-produccion-123456';
 process.env.ORIGENES_PERMITIDOS = 'http://localhost:3000';
 // Coste bajo para que las pruebas no tarden: la seguridad no depende del coste.
 process.env.COSTE_SCRYPT = '1024';
+// Estas pruebas crean muchas cuentas para recorrer los casos. El limite por IP
+// se verifica aparte, en tests/limites.test.js, que corre en otro proceso con
+// su propio limite y su propia base de datos.
+process.env.LIMITE_REGISTRO_MAX_INTENTOS = '500';
 
 const { crearAplicacion } = await import('../src/app.js');
 const { abrirBaseDatos, cerrarBaseDatos, ejecutar } = await import('../src/db.js');
@@ -97,6 +101,19 @@ ejecutar(
   'PRUEBA-01-A',
   2,
   'programado'
+);
+
+// El alta de cuentas exige un programa existente, asi que el fixture necesita
+// al menos una facultad y un programa.
+ejecutar(
+  'INSERT INTO facultades (nombre, sigla, descripcion) VALUES (?, ?, ?)',
+  'Facultad de Prueba',
+  'FPR',
+  'Facultad creada por las pruebas'
+);
+ejecutar(
+  `INSERT INTO programas (facultad_id, nombre, codigo, titulo_grado, duracion_semestres, descripcion, estado)
+   VALUES (1, 'Programa de Prueba', 'PRG-01', 'Tecnólogo', 6, 'Programa de prueba.', 'activo')`
 );
 
 /* ---------------- Servidor de pruebas ---------------- */
@@ -349,6 +366,168 @@ describe('Inyeccion SQL', () => {
       assert.ok(!('contrasena_hash' in curso));
       assert.ok(!('documento_id' in curso));
     }
+  });
+});
+
+describe('Alta de cuentas (registro)', () => {
+  const altaValida = (over = {}) => ({
+    correo: `alta-${Math.random().toString(36).slice(2, 10)}@prueba.test`,
+    contrasena: 'RegistroSeguro2026!',
+    nombre: 'Nueva',
+    apellidos: 'Persona Prueba',
+    documento: `${100 + Math.floor(Math.random() * 899)}-${10 + Math.floor(Math.random() * 89)}-${1000 + Math.floor(Math.random() * 8999)}`,
+    telefono: '+1 809 555 0199',
+    fecha_nacimiento: '2001-04-10',
+    programa_id: 1,
+    acepta_terminos: true,
+    ...over,
+  });
+
+  test('un alta valida responde 201 y devuelve el perfil', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida());
+    assert.equal(r.estado, 201);
+    assert.equal(r.json.datos.rol, 'estudiante');
+    assert.equal(typeof r.json.datos.id, 'number');
+  });
+
+  test('la respuesta del alta no filtra el hash ni la contrasena', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida());
+    assert.ok(!r.texto.includes('scrypt$'), 'se filtro el hash de la contrasena');
+    assert.ok(!r.texto.includes('RegistroSeguro2026!'), 'se filtro la contrasena en claro');
+  });
+
+  test('la cuenta creada puede iniciar sesion', async () => {
+    const cliente = crearCliente();
+    const cuerpo = altaValida();
+    const alta = await cliente.pedir('POST', '/api/auth/registro', cuerpo);
+    assert.equal(alta.estado, 201);
+    const login = await crearCliente().iniciarSesion(cuerpo.correo, cuerpo.contrasena);
+    assert.equal(login.estado, 200);
+    assert.equal(login.json.datos.usuario.rol, 'estudiante');
+  });
+
+  test('el cliente NO puede elegir su propio rol', async () => {
+    const cliente = crearCliente();
+    for (const rol of ['administrador', 'admin', 'docente', 'soporte']) {
+      const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ rol }));
+      assert.equal(r.estado, 201);
+      assert.equal(r.json.datos.rol, 'estudiante', `el rol "${rol}" llego a la base de datos`);
+    }
+  });
+
+  test('el cliente NO puede enviar rol_id ni estado directamente', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ rol_id: 1, estado: 'administrador' }));
+    assert.equal(r.estado, 201);
+    assert.equal(r.json.datos.rol, 'estudiante');
+
+    const guardado = await import('../src/db.js');
+    const fila = guardado.consultarUno('SELECT rol_id, estado FROM usuarios WHERE correo = ?', r.json.datos.correo);
+    assert.equal(fila.estado, 'activo', 'el estado no debe ser elegible desde el cliente');
+    const rolGuardado = guardado.consultarUno('SELECT nombre FROM roles WHERE id = ?', fila.rol_id);
+    assert.equal(rolGuardado.nombre, 'estudiante');
+  });
+
+  test('rechaza un correo con intento de inyeccion', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ correo: "x' OR '1'='1@prueba.test" }));
+    assert.equal(r.estado, 422);
+  });
+
+  test('rechaza un nombre con HTML', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ nombre: '<script>alert(1)</script>' }));
+    assert.equal(r.estado, 422);
+  });
+
+  test('rechaza una fecha de nacimiento imposible', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ fecha_nacimiento: '2001-02-31' }));
+    assert.equal(r.estado, 422);
+  });
+
+  test('rechaza una fecha de nacimiento futura', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ fecha_nacimiento: '2099-01-01' }));
+    assert.equal(r.estado, 422);
+  });
+
+  test('rechaza contrasenas debiles con el detalle de cada regla', async () => {
+    const cliente = crearCliente();
+    for (const contrasena of ['corta1!A', 'todojuntosinmayusculas', 'EDUCACIONAL2026', '1234567890123', 'contrasena123']) {
+      const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ contrasena }));
+      assert.equal(r.estado, 422, `se acepto la contrasena debil: ${contrasena}`);
+      assert.equal(r.json.error, 'contrasena_debil');
+      assert.ok(Array.isArray(r.json.detalles) && r.json.detalles.length > 0);
+    }
+  });
+
+  test('exige los campos obligatorios', async () => {
+    const cliente = crearCliente();
+    for (const campo of ['correo', 'contrasena', 'nombre', 'apellidos']) {
+      const cuerpo = altaValida();
+      delete cuerpo[campo];
+      const r = await cliente.pedir('POST', '/api/auth/registro', cuerpo);
+      assert.equal(r.estado, 422, `no se exigio el campo ${campo}`);
+    }
+  });
+
+  test('exige aceptar los terminos', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ acepta_terminos: false }));
+    assert.equal(r.estado, 422);
+    assert.equal(r.json.error, 'terminos_obligatorios');
+  });
+
+  test('un correo duplicado responde 409 sin revelar si existe la cuenta', async () => {
+    const cliente = crearCliente();
+    const cuerpo = altaValida();
+    assert.equal((await cliente.pedir('POST', '/api/auth/registro', cuerpo)).estado, 201);
+
+    const repetido = await crearCliente().pedir('POST', '/api/auth/registro', cuerpo);
+    assert.equal(repetido.estado, 409);
+
+    // El mensaje de correo duplicado y el de documento duplicado son el mismo:
+    // si fueran distintos, el endpoint serviria para averiguar que correos hay
+    // dados de alta en el sistema.
+    const otroCorreo = await crearCliente().pedir(
+      'POST',
+      '/api/auth/registro',
+      altaValida({ documento: cuerpo.documento })
+    );
+    assert.equal(otroCorreo.estado, 409);
+    assert.equal(repetido.json.mensaje, otroCorreo.json.mensaje);
+  });
+
+  test('rechaza un programa que no existe', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida({ programa_id: 9999 }));
+    assert.equal(r.estado, 422);
+    assert.equal(r.json.error, 'programa_invalido');
+  });
+
+  test('el alta queda auditada sin guardar la contrasena', async () => {
+    const cliente = crearCliente();
+    const r = await cliente.pedir('POST', '/api/auth/registro', altaValida());
+    const consulta = await import('../src/db.js');
+    const fila = consulta.consultarUno(
+      "SELECT datos_despues FROM auditoria WHERE entidad = 'usuarios' AND entidad_id = ?",
+      r.json.datos.id
+    );
+    assert.ok(fila, 'el alta no quedo auditada');
+    assert.ok(!fila.datos_despues.includes('scrypt$'), 'la auditoria guardo el hash');
+    assert.ok(!fila.datos_despues.includes('RegistroSeguro2026!'), 'la auditoria guardo la contrasena');
+  });
+
+  test('GET /api/auth/programas devuelve los programas activos', async () => {
+    const consulta = await import('../src/db.js');
+    const total = consulta.consultarUno("SELECT COUNT(*) AS n FROM programas WHERE estado = 'activo'").n;
+    const r = await fetch(base + '/api/auth/programas');
+    const cuerpo = await r.json();
+    assert.equal(cuerpo.datos.length, total);
+    assert.ok(cuerpo.datos[0].facultad, 'el programa no trae su facultad');
   });
 });
 

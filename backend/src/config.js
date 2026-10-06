@@ -107,8 +107,12 @@ export const config = {
       maxIntentos: entero(env.LIMITE_LOGIN_MAX_INTENTOS, 5),
     },
     registro: {
-      ventanaMinutos: entero(env.LIMITE_REGISTRO_VENTANA_MINUTOS, 60),
-      maxIntentos: entero(env.LIMITE_REGISTRO_MAX_INTENTOS, 5),
+      ventanaMinutos: entero(env.LIMITE_REGISTRO_VENTANA_MINUTAS, 60),
+      // 20 y no 5: el contador es por IP, y detras de un NAT compartido (una
+      // sala de clases, una facultad) todas las cuentas comparten la misma
+      // direccion. Con 5 el limite se agota entre los primeros usuarios de la
+      // demonstracion. En produccion conviene subirlo y vigilar el limite.
+      maxIntentos: entero(env.LIMITE_REGISTRO_MAX_INTENTOS, 20),
     },
     general: {
       ventanaMinutos: entero(env.LIMITE_GENERAL_VENTANA_MINUTOS, 1),
