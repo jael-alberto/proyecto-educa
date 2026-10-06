@@ -13,7 +13,7 @@
     "dev": "node --watch src/servidor.js",
     "db:migrar": "node src/migrar.js",
     "db:semilla": "node src/semilla.js",
-    "test": "node --test tests/"
+    "test": "node --test tests/*.test.js"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
