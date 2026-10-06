@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+
+# Base de datos local y copias de seguridad (nunca se versionan)
+backend/datos/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Secretos: el .env real jamas entra al repositorio
+.env
+.env.local
+.env.*.local
+
+# Certificados y llaves
+*.pem
+*.key
+*.crt
+
+# Dependencias del sistema
+.vscode/
+.idea/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Artefactos de construccion
+dist/
+build/
+coverage/
+*.tmp

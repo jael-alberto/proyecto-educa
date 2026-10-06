@@ -1,0 +1,23 @@
+# Normaliza los finales de linea para que el repositorio no cambie segun el
+# sistema operativo donde se clone. Sin esto, un archivo editado en Windows y
+# otro editado en Linux producen diffs de todas las lineas.
+* text=auto eol=lf
+
+# Los archivos de texto del proyecto se guardan siempre en LF.
+*.js   text eol=lf
+*.json text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.md   text eol=lf
+*.sql  text eol=lf
+*.txt  text eol=lf
+
+# Las imagenes y los archivos ya generados no se tocan.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.svg  text eol=lf
+*.ico  binary
+*.woff binary
+*.woff2 binary
+*.db   binary
