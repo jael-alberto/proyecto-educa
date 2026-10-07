@@ -1,9 +1,7 @@
 /**
- * Inicio de sesion contra la API.
- *
- * Antes, este formulario daba por buena cualquier correo y guardaba el nombre
- * en localStorage: con escribir un correo ya estabas "dentro". Ahora la
- * decision la toma el servidor, que es el unico que tiene la contrasena.
+ * Inicio de sesión con soporte Liquid Glass UI.
+ * - Auto-relleno al hacer click en las cuentas de demostración
+ * - Validación local instantánea con feedback en campos
  */
 import { iniciarSesion } from './api.js';
 import { avisar } from './main.js';
@@ -15,73 +13,84 @@ const campoCorreo = document.getElementById('correo');
 const campoContrasena = document.getElementById('contrasena');
 
 function limpiarErrores() {
-  errorGeneral.textContent = '';
+  if (errorGeneral) errorGeneral.textContent = '';
   for (const id of ['error-correo', 'error-contrasena']) {
-    document.getElementById(id).textContent = '';
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
   }
-  campoCorreo.removeAttribute('aria-invalid');
-  campoContrasena.removeAttribute('aria-invalid');
+  campoCorreo?.removeAttribute('aria-invalid');
+  campoContrasena?.removeAttribute('aria-invalid');
 }
 
 function marcarError(campo, mensaje) {
   const destino = document.getElementById(`error-${campo}`);
   if (destino) destino.textContent = mensaje;
   const input = campo === 'correo' ? campoCorreo : campoContrasena;
-  input.setAttribute('aria-invalid', 'true');
+  input?.setAttribute('aria-invalid', 'true');
 }
 
-formulario.addEventListener('submit', async (evento) => {
-  evento.preventDefault();
-  limpiarErrores();
+if (formulario) {
+  formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    limpiarErrores();
 
-  const correo = campoCorreo.value.trim();
-  const contrasena = campoContrasena.value;
+    const correo = campoCorreo.value.trim();
+    const contrasena = campoContrasena.value;
 
-  // El navegador ya valida el formato del correo, pero se comprueba aqui para
-  // poder señalar el campo concreto y no dejar que se envie una peticion tonta.
-  if (!correo) return marcarError('correo', 'Escribe tu correo electronico.');
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) {
-    return marcarError('correo', 'Ese correo no tiene un formato valido.');
-  }
-  if (!contrasena) return marcarError('contrasena', 'Escribe tu contrasena.');
-
-  boton.disabled = true;
-  boton.textContent = 'Entrando...';
-
-  try {
-    const datos = await iniciarSesion(correo, contrasena);
-    avisar(`Hola, ${datos.usuario.nombre}. Sesion iniciada.`, 'exito');
-    // iniciarSesion ya guardo el token anti-CSRF. No se guarda nada mas: ni la
-    // contrasena, ni el token de sesion (que va en una cookie HttpOnly y aqui
-    // ni siquiera existe).
-    setTimeout(() => (window.location.href = 'index.html'), 500);
-  } catch (error) {
-    boton.disabled = false;
-    boton.textContent = 'Entrar';
-
-    if (error.codigo === 'credenciales_invalidas') {
-      // El backend responde siempre el mismo mensaje, exista o no el correo,
-      // para no permitir averiguar que correos estan registrados.
-      marcarError('contrasena', error.message);
-    } else if (error.codigo === 'throttling') {
-      errorGeneral.textContent = error.message;
-    } else if (error.estado === 422) {
-      errorGeneral.textContent = 'Revisa el correo y la contrasena.';
-    } else {
-      errorGeneral.textContent = error.message;
+    if (!correo) return marcarError('correo', 'Escribe tu correo electrónico.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) {
+      return marcarError('correo', 'Ese correo no tiene un formato válido.');
     }
-  }
-});
+    if (!contrasena) return marcarError('contrasena', 'Escribe tu contraseña.');
 
-// Mostrar u ocultar la contrasena. Un boton de texto en vez de un icono: se
-// entiende sin avoir que adivinar, y un icono sin etiqueta no lo anuncia el
-// lector de pantalla.
+    boton.disabled = true;
+    boton.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+      Verificando...`;
+
+    try {
+      const datos = await iniciarSesion(correo, contrasena);
+      avisar(`Bienvenido de nuevo, ${datos.usuario.nombre}. ✦`, 'exito');
+      setTimeout(() => (window.location.href = 'dashboard.html'), 600);
+    } catch (error) {
+      boton.disabled = false;
+      boton.innerHTML = `Entrar al Campus <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+
+      if (error.codigo === 'credenciales_invalidas') {
+        marcarError('contrasena', error.message || 'Credenciales incorrectas. Verifica tu correo y contraseña.');
+      } else if (error.codigo === 'throttling') {
+        errorGeneral.textContent = error.message;
+      } else if (error.estado === 422) {
+        errorGeneral.textContent = 'Revisa el correo y la contraseña.';
+      } else {
+        errorGeneral.textContent = error.message || 'No se pudo iniciar sesión. Inténtalo de nuevo.';
+      }
+    }
+  });
+}
+
+// Botón ver/ocultar contraseña
 document.querySelectorAll('[data-ver-contrasena]').forEach((botonVer) => {
   botonVer.addEventListener('click', () => {
+    if (!campoContrasena) return;
     const visible = campoContrasena.type === 'text';
     campoContrasena.type = visible ? 'password' : 'text';
     botonVer.textContent = visible ? 'Ver' : 'Ocultar';
-    botonVer.setAttribute('aria-label', visible ? 'Mostrar la contrasena' : 'Ocultar la contrasena');
+    botonVer.setAttribute('aria-label', visible ? 'Mostrar la contraseña' : 'Ocultar la contraseña');
     campoContrasena.focus();
   });
+});
+
+// Auto-rellenar formulario al hacer clic en cuentas de demostración
+document.addEventListener('click', (e) => {
+  const item = e.target.closest('[data-auto-correo]');
+  if (!item) return;
+  const correo = item.dataset.autoCorreo;
+  const pass = item.dataset.autoPass;
+  if (campoCorreo && correo) campoCorreo.value = correo;
+  if (campoContrasena && pass) campoContrasena.value = pass;
+  // Enfocar el botón de envío para facilitar el flujo
+  if (boton) boton.focus();
+  limpiarErrores();
+  avisar('Cuenta de demostración cargada. Haz clic en Entrar.', 'info');
 });

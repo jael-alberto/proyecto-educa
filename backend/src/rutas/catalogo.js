@@ -16,6 +16,8 @@ rutasCatalogo.get(
     const cursor = Number.parseInt(req.query.cursor ?? '0', 10) || 0;
     const dificultad = typeof req.query.dificultad === 'string' ? req.query.dificultad : null;
     const modalidad = typeof req.query.modalidad === 'string' ? req.query.modalidad : null;
+    const busqueda = typeof req.query.q === 'string' && req.query.q.trim() ? req.query.q.trim() : null;
+    const destacado = req.query.destacado !== undefined && req.query.destacado !== '' ? Number(req.query.destacado) : null;
 
     // Los filtros viajan como PARAMETROS, nunca concatenados en el SQL.
     const condiciones = [];
@@ -27,6 +29,14 @@ rutasCatalogo.get(
     if (modalidad) {
       condiciones.push('modalidad = ?');
       params.push(modalidad);
+    }
+    if (destacado !== null && !Number.isNaN(destacado)) {
+      condiciones.push('destacado = ?');
+      params.push(destacado);
+    }
+    if (busqueda) {
+      condiciones.push('(nombre LIKE ? OR descripcion LIKE ?)');
+      params.push(`%${busqueda}%`, `%${busqueda}%`);
     }
     const where = condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '';
 

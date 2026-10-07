@@ -1,116 +1,243 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Educa | Tu carrera empieza aqui</title>
-    <meta name="description" content="Catalogo de cursos con certificacion, grupos programados y seguimiento de matriculas.">
+    <title>Educa | Sistema Educativo Liquid Glass iOS</title>
+    <meta name="description" content="Plataforma educativa moderna con diseño Liquid Glass estilo iOS para escritorio. Catálogo de cursos, seguimiento y certificaciones oficiales.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav aria-label="Navegacion principal">
-        <a class="logo" href="index.html">Educa</a>
-        <a href="index.html" aria-current="page">Inicio</a>
-        <a href="cursos.html">Cursos</a>
-        <div class="nav-sesion" data-zona-sesion></div>
+    <!-- Navbar Horizontal Fijo Desktop-First con Efecto Glass -->
+    <nav aria-label="Navegación principal">
+        <div class="nav-contenedor">
+            <a class="logo" href="index.html">
+                <div class="logo-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                </div>
+                <span>Educa</span>
+                <span class="logo-tag">PRO</span>
+            </a>
+
+            <div class="nav-enlaces">
+                <a href="index.html" aria-current="page">Inicio</a>
+                <a href="cursos.html">Catálogo de Cursos</a>
+                <a href="cursos.html?modalidad=online_en_vivo">Clases en Vivo</a>
+                <a href="cursos.html?dificultad=principiante">Rutas Iniciales</a>
+            </div>
+
+            <div class="nav-sesion" data-zona-sesion></div>
+        </div>
     </nav>
 
     <main id="contenido">
+        <!-- Hero Section: Layout 2 Columnas Desktop-First -->
         <section class="hero">
-            <span class="badge" id="insigniaHero">Cargando datos del sistema...</span>
-            <h1>Transforma tu futuro profesional con Sistema Educa</h1>
-            <p>
-                Cursos con certificacion, grupos programados y fechas claras.
-                Puedes ver el catalogo completo sin crear cuenta.
-            </p>
-            <div class="hero-acciones">
-                <a href="registro.html" class="btn btn-primario">Empieza gratis</a>
-                <a href="cursos.html" class="btn btn-outline">Ver cursos</a>
+            <div class="container">
+                <div class="hero-grid">
+                    <!-- Columna Izquierda: Texto y CTAs -->
+                    <div class="hero-col-texto revelar">
+                        <span class="badge badge-verde" id="insigniaHero">✦ Admisiones abiertas para nuevos grupos 2026</span>
+                        
+                        <h1>
+                            Transforma tu futuro profesional con <span class="gradiente-texto">Sistema Educa</span>
+                        </h1>
+                        
+                        <p class="hero-descripcion">
+                            Cursos de alto nivel con acreditación verificable, grupos reducidos y fechas claras.
+                            Disfruta una experiencia interactiva pensada para tu escritorio con estética Apple Liquid Glass.
+                        </p>
+                        
+                        <div class="hero-acciones">
+                            <a href="registro.html" class="btn btn-primario">
+                                Empieza gratis hoy
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                            <a href="cursos.html" class="btn btn-outline">
+                                Explorar catálogo
+                            </a>
+                        </div>
+
+                        <div class="hero-confianza">
+                            <div class="item-confianza">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Sin tarjeta requerida</span>
+                            </div>
+                            <div class="item-confianza">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Certificados verificables</span>
+                            </div>
+                            <div class="item-confianza">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>Acceso instantáneo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Showcase 3D Liquid Glass -->
+                    <div class="hero-col-visual revelar">
+                        <!-- Floating Pill Superior -->
+                        <div class="floating-pill floating-pill-1">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span>+1,420 Alumnos Activos</span>
+                        </div>
+
+                        <!-- Tarjeta Principal Glass -->
+                        <div class="showcase-glass-card">
+                            <div class="showcase-header">
+                                <div class="showcase-user">
+                                    <div class="showcase-avatar">MR</div>
+                                    <div class="showcase-user-info">
+                                        <h4>María Restrepo</h4>
+                                        <p>Ingeniería en Software · Alumna</p>
+                                    </div>
+                                </div>
+                                <span class="showcase-badge-status">En línea</span>
+                            </div>
+
+                            <div class="showcase-progreso-box">
+                                <div class="showcase-progreso-head">
+                                    <h5>Programación Web Fullstack</h5>
+                                    <span>85%</span>
+                                </div>
+                                <div class="barra-progreso">
+                                    <div class="barra-progreso-fill"></div>
+                                </div>
+                            </div>
+
+                            <div class="showcase-mini-grid">
+                                <div class="showcase-mini-card">
+                                    <span class="mini-label">Créditos Oficiales</span>
+                                    <strong>24 / 30 ECTS</strong>
+                                </div>
+                                <div class="showcase-mini-card">
+                                    <span class="mini-label">Evaluación Media</span>
+                                    <strong style="color: #10b981;">9.8 / 10</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Pill Inferior -->
+                        <div class="floating-pill floating-pill-2">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span>Certificación Criptográfica Oficial</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <div class="container">
+            <!-- Saludo dinámico de sesión si el usuario ya inició -->
             <section class="saludo-sesion" id="saludoSesion" hidden aria-live="polite"></section>
 
-            <section class="seccion">
+            <!-- Stats Counter Animado en Fila Horizontal -->
+            <section class="seccion-stats">
                 <div class="stats" id="estadisticas" aria-busy="true">
-                    <p class="cargando">Cargando estadisticas...</p>
-                </div>
-            </section>
-
-            <section class="seccion">
-                <div class="seccion-titulo">
-                    <h2>Lo que hace la plataforma</h2>
-                    <p>Catalogo, matriculas y certificacion en un solo lugar</p>
-                    <div class="linea"></div>
-                </div>
-                <div class="grid">
-                    <div class="card revelar">
-                        <div class="card-cuerpo">
-                            <h3>Catalogo de cursos</h3>
-                            <p>
-                                Cada curso muestra su programa, modalidad, dificultad,
-                                duracion y precio real, tomados de la base de datos.
-                            </p>
+                    <div class="stat-card">
+                        <div class="stat-icono">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                         </div>
+                        <h2 class="stat-numero">8</h2>
+                        <p class="stat-etiqueta">Cursos Publicados</p>
                     </div>
-                    <div class="card revelar">
-                        <div class="card-cuerpo">
-                            <h3>Grupos con fecha y cupo</h3>
-                            <p>
-                                Puedes ver el horario, el aula y cuantas plazas quedan
-                                libres antes de postularte.
-                            </p>
+                    <div class="stat-card">
+                        <div class="stat-icono">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
                         </div>
+                        <h2 class="stat-numero">1,420</h2>
+                        <p class="stat-etiqueta">Estudiantes Activos</p>
                     </div>
-                    <div class="card revelar">
-                        <div class="card-cuerpo">
-                            <h3>Certificados verificables</h3>
-                            <p>
-                                Cada certificado emitido tiene un codigo de
-                                verificacion para quien lo revisiona.
-                            </p>
+                    <div class="stat-card">
+                        <div class="stat-icono">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
                         </div>
+                        <h2 class="stat-numero">580</h2>
+                        <p class="stat-etiqueta">Certificados Emitidos</p>
                     </div>
-                    <div class="card revelar">
-                        <div class="card-cuerpo">
-                            <h3>Cuentas protegidas</h3>
-                            <p>
-                                Contrasenas cifradas con scrypt, sesiones en cookie
-                                HttpOnly y tokens anti-CSRF en cada envio.
-                            </p>
+                    <div class="stat-card">
+                        <div class="stat-icono">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect></svg>
                         </div>
+                        <h2 class="stat-numero">24</h2>
+                        <p class="stat-etiqueta">Vacantes Abiertas</p>
                     </div>
                 </div>
             </section>
 
-            <section class="seccion">
-                <div class="seccion-titulo">
-                    <h2>Cursos destacados</h2>
-                    <p>Los que la plataforma tiene marcados como destacados</p>
-                    <div class="linea"></div>
+            <!-- Features en Grid de 4 Columnas Desktop -->
+            <section style="margin-bottom: 70px;">
+                <div class="seccion-titulo revelar">
+                    <h2>Ecosistema Académico Completo</h2>
+                    <p>Todo lo que necesitas para tu desarrollo profesional diseñado con precisión de cristal</p>
+                </div>
+                <div class="grid-features">
+                    <div class="card revelar">
+                        <div class="card-icono">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                        </div>
+                        <h3>Catálogo de Especialidad</h3>
+                        <p>Planes de estudio actualizados a la demanda del mercado, con programas curriculares completos y precios transparentes.</p>
+                    </div>
+                    <div class="card revelar">
+                        <div class="card-icono">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </div>
+                        <h3>Grupos y Cupos en Vivo</h3>
+                        <p>Horarios definidos, sesiones interactivas y cupos limitados en tiempo real para garantizar atención personalizada.</p>
+                    </div>
+                    <div class="card revelar">
+                        <div class="card-icono">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        </div>
+                        <h3>Acreditación Verificable</h3>
+                        <p>Tus diplomas incorporan un hash criptográfico y enlace público de verificación para validar tus competencias en LinkedIn.</p>
+                    </div>
+                    <div class="card revelar">
+                        <div class="card-icono">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <h3>Seguridad y Privacidad</h3>
+                        <p>Contraseñas con hashing scrypt de alta resistencia, sesiones seguras HttpOnly y tokens anti-CSRF en cada transacción.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cursos Destacados en 3 Columnas Desktop -->
+            <section style="margin-bottom: 70px;">
+                <div class="seccion-titulo revelar">
+                    <h2>Cursos de Alta Demanda</h2>
+                    <p>Explora nuestras formaciones más destacadas y reserva tu lugar antes del inicio de grupos</p>
                 </div>
                 <div class="rejilla-cursos" id="cursosDestacados" aria-busy="true">
-                    <p class="cargando">Cargando cursos...</p>
+                    <p class="cargando" style="grid-column: 1 / -1; text-align: center;">Cargando catálogo destacado...</p>
                 </div>
-                <div class="centro">
-                    <a href="cursos.html" class="btn btn-primario">Ver todo el catalogo</a>
+                <div style="text-align: center; margin-top: 36px;">
+                    <a href="cursos.html" class="btn btn-primario">
+                        Ver catálogo completo de cursos
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
                 </div>
             </section>
 
-            <section class="seccion">
-                <div class="panel-registro">
-                    <h2>Listo para dar el salto</h2>
-                    <p>Crea tu cuenta y empieza a postulate a los grupos abiertos.</p>
+            <!-- CTA Final Liquid Glass -->
+            <section>
+                <div class="panel-registro revelar">
+                    <h2>¿Listo para impulsar tu trayectoria profesional?</h2>
+                    <p>Únete a más de 1,400 estudiantes que ya se capacitan con Sistema Educa. Acceso instantáneo sin tarjeta de crédito.</p>
                     <div class="hero-acciones">
                         <a href="registro.html" class="btn btn-primario">Crear mi cuenta gratis</a>
-                        <a href="cursos.html" class="btn btn-outline">Explorar cursos</a>
+                        <a href="cursos.html" class="btn btn-outline">Consultar temarios</a>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
+    <script type="module" src="js/main.js"></script>
     <script type="module" src="js/inicio.js"></script>
 </body>
 </html>

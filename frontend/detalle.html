@@ -3,38 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del curso | Sistema Educa</title>
-    <meta name="description" content="Programa, contenido y grupos disponibles del curso.">
+    <title>Detalle del Curso | Sistema Educa</title>
+    <meta name="description" content="Programa completo, módulos de contenido y grupos disponibles del curso.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav aria-label="Navegacion principal">
-        <a class="logo" href="index.html">Educa</a>
-        <a href="index.html">Inicio</a>
-        <a href="cursos.html" aria-current="page">Cursos</a>
-        <div class="nav-sesion" data-zona-sesion></div>
+    <nav aria-label="Navegación principal">
+        <div class="nav-contenedor">
+            <a class="logo" href="index.html">
+                <div class="logo-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                </div>
+                <span>Educa</span>
+                <span class="logo-tag">PRO</span>
+            </a>
+            <div class="nav-enlaces">
+                <a href="index.html">Inicio</a>
+                <a href="cursos.html" aria-current="page">Catálogo de Cursos</a>
+                <a href="cursos.html?modalidad=online_en_vivo">Clases en Vivo</a>
+            </div>
+            <div class="nav-sesion" data-zona-sesion></div>
+        </div>
     </nav>
 
     <main class="container" id="contenido">
-        <nav class="migas-pan" aria-label="Ruta de navegacion">
+        <!-- Migas de pan -->
+        <nav class="migas-pan" aria-label="Ruta de navegación">
             <a href="index.html">Inicio</a>
-            <span aria-hidden="true">/</span>
-            <a href="cursos.html">Cursos</a>
-            <span aria-hidden="true">/</span>
+            <span aria-hidden="true" style="color: var(--texto-mutado);">/</span>
+            <a href="cursos.html">Catálogo</a>
+            <span aria-hidden="true" style="color: var(--texto-mutado);">/</span>
             <span id="migaCurso">Cargando...</span>
         </nav>
 
         <div id="detalleCurso" aria-busy="true">
-            <p class="cargando">Cargando el curso...</p>
+            <p class="cargando" style="text-align: center; padding: 60px; font-size: 1.15rem; color: var(--texto-suave);">Cargando el curso...</p>
         </div>
 
-        <div id="cursoNoEncontrado" hidden>
-            <h1>Ese curso no existe</h1>
-            <p>Puede que el enlace este mal escrito o que el curso ya no este publicado.</p>
-            <a class="btn btn-primario" href="cursos.html">Volver al catalogo</a>
+        <div id="cursoNoEncontrado" hidden style="text-align: center; padding: 80px 40px;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 16px;">Ese curso no existe</h1>
+            <p style="font-size: 1.1rem; color: var(--texto-suave); margin-bottom: 28px;">Es posible que el enlace esté mal escrito o que el curso ya no esté publicado.</p>
+            <a class="btn btn-primario" href="cursos.html">Volver al catálogo completo</a>
         </div>
     </main>
 
+    <script type="module" src="js/main.js"></script>
     <script type="module" src="js/detalle.js"></script>
 </body>
 </html>

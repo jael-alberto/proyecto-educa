@@ -1,32 +1,51 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo de cursos | Sistema Educa</title>
-    <meta name="description" content="Explora los cursos disponibles por modalidad y nivel de dificultad.">
+    <title>Catálogo de Cursos | Sistema Educa</title>
+    <meta name="description" content="Explora el catálogo completo de cursos de Sistema Educa. Filtra por modalidad, nivel y área. Acceso libre sin iniciar sesión.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav aria-label="Navegacion principal">
-        <a class="logo" href="index.html">Educa</a>
-        <a href="index.html">Inicio</a>
-        <a href="cursos.html" aria-current="page">Cursos</a>
-        <div class="nav-sesion" data-zona-sesion></div>
+    <nav aria-label="Navegación principal">
+        <div class="nav-contenedor">
+            <a class="logo" href="index.html">
+                <div class="logo-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                </div>
+                <span>Educa</span>
+                <span class="logo-tag">PRO</span>
+            </a>
+            <div class="nav-enlaces">
+                <a href="index.html">Inicio</a>
+                <a href="cursos.html" aria-current="page">Catálogo de Cursos</a>
+                <a href="cursos.html?modalidad=online_en_vivo">Clases en Vivo</a>
+                <a href="cursos.html?dificultad=principiante">Rutas Iniciales</a>
+            </div>
+            <div class="nav-sesion" data-zona-sesion></div>
+        </div>
     </nav>
 
     <main class="container" id="contenido">
-        <header class="cabecera-pagina">
-            <h1>Catalogo de cursos</h1>
-            <p>
-                Puedes ver el catalogo sin iniciar sesion. Solo necesitas entrar
-                cuando quieras postularte a un grupo.
-            </p>
+        <header class="cabecera-pagina revelar">
+            <span class="badge badge-azul">✦ Catálogo Oficial 2026</span>
+            <h1>Catálogo de Cursos</h1>
+            <p>Explora todos nuestros programas. Sin necesidad de iniciar sesión. Postúlate cuando estés listo.</p>
         </header>
 
-        <form class="filtros" id="formFiltros" aria-label="Filtrar cursos">
+        <!-- Barra Horizontal de Filtros Desktop -->
+        <form class="filtros revelar" id="formFiltros" aria-label="Filtrar cursos">
+            <div class="campo campo-busqueda">
+                <label for="busqueda">Búsqueda rápida por nombre o tema</label>
+                <input type="search" id="busqueda" name="busqueda" placeholder="Ej: Python, React, Seguridad...">
+            </div>
+
             <div class="campo">
-                <label for="dificultad">Nivel</label>
+                <label for="dificultad">Nivel de Dificultad</label>
                 <select id="dificultad" name="dificultad">
                     <option value="">Todos los niveles</option>
                     <option value="principiante">Principiante</option>
@@ -40,28 +59,33 @@
                 <select id="modalidad" name="modalidad">
                     <option value="">Todas las modalidades</option>
                     <option value="presencial">Presencial</option>
-                    <option value="hibrida">Hibrida</option>
+                    <option value="hibrida">Híbrida</option>
                     <option value="online">Online</option>
-                    <option value="online_en_vivo">Online en vivo</option>
+                    <option value="online_en_vivo">Online en Vivo</option>
                 </select>
             </div>
 
             <div class="campo campo-boton">
-                <button class="btn btn-primario" type="submit">Aplicar filtros</button>
+                <button class="btn btn-primario" type="submit" id="btnFiltrar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                    Aplicar Filtros
+                </button>
                 <button class="btn btn-outline" type="reset">Limpiar</button>
             </div>
         </form>
 
-        <p class="resultados" id="resultados" role="status" aria-live="polite">Cargando cursos...</p>
+        <p class="resultados" id="resultados" role="status" aria-live="polite">Cargando catálogo de cursos...</p>
 
         <div class="rejilla-cursos" id="listaCursos" aria-busy="true"></div>
 
-        <p class="vacio" id="sinResultados" hidden>
-            No hay cursos que coincidan con esos filtros.
-            <button class="enlace-boton" type="button" id="quitarFiltros">Ver todos los cursos</button>
-        </p>
+        <div class="vacio" id="sinResultados" hidden>
+            <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">Sin resultados para esos filtros</p>
+            <p style="margin-bottom: 20px;">Prueba con una combinación diferente de nivel o modalidad.</p>
+            <button class="btn btn-primario" type="button" id="quitarFiltros">Ver todos los cursos</button>
+        </div>
     </main>
 
+    <script type="module" src="js/main.js"></script>
     <script type="module" src="js/cursos.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import { resolve } from 'node:path';
 import { config } from './config.js';
 import { cabecerasSeguridad, corsPermitido, limiteGeneral } from './seguridad.js';
 import { ErrorApi, enviarError } from './errores.js';
@@ -46,9 +47,16 @@ export function crearAplicacion() {
   app.use('/api/auth', rutasRegistro);
   app.use('/api/catalogo', rutasCatalogo);
 
-  // 9. Ruta no encontrada, dentro y fuera de /api.
-  app.use((req, res) => {
+  // 9. Servir archivos estaticos del frontend (HTML, CSS, JS).
+  app.use(express.static(resolve(config.raizRepo, 'frontend')));
+
+  // 10. Ruta no encontrada para endpoints de la API o recursos inexistentes.
+  app.use('/api', (req, res) => {
     enviarError(res, ErrorApi.noEncontrado('El endpoint'));
+  });
+
+  app.use((req, res) => {
+    enviarError(res, ErrorApi.noEncontrado('El recurso'));
   });
 
   // 10. Manejador central de errores.

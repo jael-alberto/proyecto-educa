@@ -64,6 +64,8 @@ function exigirClave(nombre) {
 export const config = {
   entorno,
   esProduccion,
+  raiz: RAIZ,
+  raizRepo: RAIZ_REPO,
   puerto: entero(env.PORT, 3000),
   host: env.HOST ?? '127.0.0.1',
 

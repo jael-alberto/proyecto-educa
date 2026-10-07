@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Campus | Sistema Educa</title>
+    <meta name="description" content="Área personal del estudiante en Sistema Educa. Gestiona tus cursos en progreso, postulaciones y certificaciones oficiales.">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <nav aria-label="Navegación principal">
+        <div class="nav-contenedor">
+            <a class="logo" href="index.html">
+                <div class="logo-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                </div>
+                <span>Educa</span>
+                <span class="logo-tag">PRO</span>
+            </a>
+            <div class="nav-enlaces">
+                <a href="index.html">Inicio</a>
+                <a href="cursos.html">Catálogo de Cursos</a>
+                <a href="dashboard.html" aria-current="page" style="color: var(--azul-primario); font-weight: 700;">✦ Mi Campus</a>
+            </div>
+            <div class="nav-sesion" data-zona-sesion></div>
+        </div>
+    </nav>
+
+    <main class="container" id="contenido">
+        <!-- Migas de pan -->
+        <nav class="migas-pan revelar" aria-label="Ruta de navegación">
+            <a href="index.html">Inicio</a>
+            <span aria-hidden="true" style="color: var(--texto-mutado);">/</span>
+            <span id="migaActual">Mi Campus Estudiantil</span>
+        </nav>
+
+        <!-- Cabecera de Perfil Liquid Glass -->
+        <header class="dashboard-hero revelar">
+            <div class="dashboard-perfil-info">
+                <div class="dashboard-avatar-grande" id="avatarUsuario">E</div>
+                <div class="dashboard-detalles-usuario">
+                    <span class="badge badge-verde" style="margin-bottom: 8px;">✦ Cuenta Activa &bull; Ciclo 2026</span>
+                    <h1 id="nombreUsuario">Cargando perfil...</h1>
+                    <p>
+                        <span id="correoUsuario">estudiante@educa.com</span>
+                        <span>&bull;</span>
+                        <span id="rolUsuario" style="text-transform: capitalize;">Estudiante Regular</span>
+                    </p>
+                </div>
+            </div>
+            <div class="dashboard-acciones-rapidas">
+                <a href="cursos.html" class="btn btn-primario">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    Inscribir Otro Curso
+                </a>
+            </div>
+        </header>
+
+        <!-- Fila de Estadísticas del Estudiante -->
+        <section class="rejilla-stats revelar" style="margin-bottom: 40px;">
+            <div class="stat-card">
+                <div class="stat-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
+                <h2 class="stat-numero" id="statCursosActivos">2</h2>
+                <p class="stat-etiqueta">Cursos en Progreso</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <h2 class="stat-numero">48 h</h2>
+                <p class="stat-etiqueta">Horas de Formación</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <h2 class="stat-numero">94%</h2>
+                <p class="stat-etiqueta">Promedio Global</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                </div>
+                <h2 class="stat-numero" id="statCertificados">1</h2>
+                <p class="stat-etiqueta">Certificación Emitida</p>
+            </div>
+        </section>
+
+        <!-- Pestañas de Navegación -->
+        <nav class="dashboard-tabs revelar" aria-label="Secciones del campus">
+            <button type="button" class="dashboard-tab-btn activo" data-tab="cursos">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                Mis Cursos Activos
+            </button>
+            <button type="button" class="dashboard-tab-btn" data-tab="postulaciones">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                Mis Postulaciones y Cupos
+            </button>
+            <button type="button" class="dashboard-tab-btn" data-tab="certificados">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                Certificados Oficiales
+            </button>
+        </nav>
+
+        <!-- Contenido Tab 1: Mis Cursos Activos -->
+        <section id="panelCursos" class="dashboard-seccion revelar">
+            <div class="dashboard-grid-cursos" id="listaCursosActivos">
+                <p class="cargando" style="grid-column: 1 / -1; text-align: center;">Cargando tus programas formativos...</p>
+            </div>
+        </section>
+
+        <!-- Contenido Tab 2: Mis Postulaciones -->
+        <section id="panelPostulaciones" class="dashboard-seccion revelar" hidden>
+            <div class="card" style="padding: 28px 36px; margin-bottom: 30px;">
+                <h3 style="font-size: 1.35rem; margin-bottom: 8px;">Estado de Postulaciones</h3>
+                <p style="color: var(--texto-suave); margin-bottom: 24px;">Seguimiento en tiempo real de tus solicitudes de ingreso y asignación de grupo.</p>
+                <div id="contenedorPostulaciones">
+                    <p class="cargando">Cargando postulaciones...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenido Tab 3: Certificados Oficiales -->
+        <section id="panelCertificados" class="dashboard-seccion revelar" hidden>
+            <div class="card" style="padding: 28px 36px; margin-bottom: 30px;">
+                <h3 style="font-size: 1.35rem; margin-bottom: 8px;">Credenciales y Títulos Digitales</h3>
+                <p style="color: var(--texto-suave); margin-bottom: 28px;">Certificaciones verificables con hash de seguridad criptográfica y registro oficial en blockchain educativa.</p>
+                <div class="credencial-grid" id="contenedorCertificados">
+                    <p class="cargando">Cargando certificados...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

@@ -3,75 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesion | Sistema Educa</title>
-    <meta name="description" content="Accede a tu cuenta de Sistema Educa para seguir tu formacion y ver tus cursos.">
+    <title>Iniciar Sesión | Sistema Educa</title>
+    <meta name="description" content="Accede a tu cuenta de Sistema Educa para gestionar tus cursos, calificaciones y certificaciones oficiales.">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <nav aria-label="Navegacion principal">
-        <a class="logo" href="index.html">Educa</a>
-        <a href="index.html">Inicio</a>
-        <a href="cursos.html">Cursos</a>
-        <div class="nav-sesion" data-zona-sesion></div>
+    <nav aria-label="Navegación principal">
+        <div class="nav-contenedor">
+            <a class="logo" href="index.html">
+                <div class="logo-icono" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                </div>
+                <span>Educa</span>
+                <span class="logo-tag">PRO</span>
+            </a>
+            <div class="nav-enlaces">
+                <a href="index.html">Inicio</a>
+                <a href="cursos.html">Catálogo de Cursos</a>
+                <a href="cursos.html?modalidad=online_en_vivo">Clases en Vivo</a>
+            </div>
+            <div class="nav-sesion" data-zona-sesion></div>
+        </div>
     </nav>
 
-    <main class="container container-formulario" id="contenido">
-        <form id="formLogin" novalidate>
-            <h1>Inicia sesion</h1>
-            <p class="subtitulo">Accede a tus cursos, matriculas y certificados.</p>
+    <main class="container" id="contenido">
+        <div class="container-formulario">
+            <!-- Columna Izquierda: Formulario Liquid Glass -->
+            <form id="formLogin" novalidate class="revelar">
+                <span class="badge badge-azul" style="margin-bottom: 14px;">✦ Acceso Seguro</span>
+                <h1>Inicia Sesión</h1>
+                <p class="subtitulo">Ingresa tus credenciales para acceder a tus clases y progreso.</p>
 
-            <div class="campo">
-                <label for="correo">Correo electronico</label>
-                <input type="email" id="correo" name="correo" autocomplete="email"
-                       inputmode="email" required aria-describedby="error-correo">
-                <p class="error-campo" id="error-correo" role="alert"></p>
-            </div>
-
-            <div class="campo">
-                <label for="contrasena">Contrasena</label>
-                <div class="con-boton">
-                    <input type="password" id="contrasena" name="contrasena"
-                           autocomplete="current-password" required aria-describedby="error-contrasena">
-                    <button type="button" class="btn-ver-contrasena" data-ver-contrasena
-                            aria-label="Mostrar la contrasena">Ver</button>
+                <div class="campo">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" name="correo" autocomplete="email"
+                           placeholder="ejemplo@educa.com" inputmode="email" required aria-describedby="error-correo">
+                    <p class="error-campo" id="error-correo" role="alert"></p>
                 </div>
-                <p class="error-campo" id="error-contrasena" role="alert"></p>
-            </div>
 
-            <label class="casilla">
-                <input type="checkbox" id="recordarme" name="recordarme">
-                <span>Mantener la sesion abierta en este equipo</span>
-            </label>
+                <div class="campo">
+                    <label for="contrasena">Contraseña</label>
+                    <div class="con-boton">
+                        <input type="password" id="contrasena" name="contrasena"
+                               autocomplete="current-password" placeholder="••••••••••••" required aria-describedby="error-contrasena">
+                        <button type="button" class="btn-ver-contrasena" data-ver-contrasena
+                                aria-label="Mostrar la contraseña">Ver</button>
+                    </div>
+                    <p class="error-campo" id="error-contrasena" role="alert"></p>
+                </div>
 
-            <p class="error-general" id="error-general" role="alert"></p>
+                <label class="casilla">
+                    <input type="checkbox" id="recordarme" name="recordarme">
+                    <span>Mantener la sesión iniciada en este equipo</span>
+                </label>
 
-            <button class="btn btn-primario btn-bloque" type="submit" id="botonEntrar">Entrar</button>
+                <p class="error-general" id="error-general" role="alert"></p>
 
-            <p class="pie-formulario">
-                Todavia no tienes cuenta? <a href="registro.html">Crear una cuenta gratis</a>
-            </p>
-        </form>
+                <button class="btn btn-primario btn-bloque" type="submit" id="botonEntrar">
+                    Entrar al Campus
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
 
-        <aside class="panel-lateral" aria-label="Ventajas de la cuenta">
-            <h2>Por que crear una cuenta</h2>
-            <ul class="lista-ventajas">
-                <li>Guarda tu progreso en cada curso</li>
-                <li>Postula a grupos que tienen cupo abierto</li>
-                <li>Descarga tus certificados verificables</li>
-                <li>Recibe avisos de tus proximas evaluaciones</li>
-            </ul>
-            <div class="panel-cuentas-prueba">
-                <h3>Cuentas de prueba</h3>
-                <p>Para demostrar el sistema con datos de ejemplo:</p>
-                <ul>
-                    <li><code>estudiante@educa.com</code> · <code>EducaEstudiante2026!</code></li>
-                    <li><code>docente@educa.com</code> · <code>EducaDocente2026!</code></li>
-                    <li><code>admin@educa.com</code> · <code>EducaAdmin2026!</code></li>
+                <p class="pie-formulario">
+                    ¿Todavía no tienes cuenta? <a href="registro.html">Crear una cuenta gratis</a>
+                </p>
+            </form>
+
+            <!-- Columna Derecha: Panel Lateral de Beneficios y Cuentas de Prueba -->
+            <aside class="panel-lateral revelar" aria-label="Ventajas y cuentas de demostración">
+                <div>
+                    <h2>Beneficios de tu Cuenta</h2>
+                    <p style="color: var(--texto-suave); font-size: 0.95rem; margin-top: 4px;">Tu portal universitario centralizado y seguro.</p>
+                </div>
+
+                <ul class="lista-ventajas">
+                    <li>Registro y avance continuo en módulos interactivos</li>
+                    <li>Postulación directa a grupos con cupo abierto en tiempo real</li>
+                    <li>Descarga de diplomas certificados con firma digital verificable</li>
+                    <li>Acceso al historial de calificaciones y notas evaluativas</li>
                 </ul>
-            </div>
-        </aside>
+
+                <!-- Cuentas de prueba interactivas -->
+                <div class="panel-cuentas-prueba">
+                    <h3>Cuentas de Demostración</h3>
+                    <p>Haz clic en cualquiera para auto-completar el formulario al instante:</p>
+                    <div class="cuentas-grid">
+                        <div class="item-cuenta-prueba" data-auto-correo="estudiante@educa.com" data-auto-pass="EducaEstudiante2026!">
+                            <div class="item-cuenta-info">
+                                <span class="item-cuenta-rol">Estudiante</span>
+                                <span class="item-cuenta-correo">estudiante@educa.com</span>
+                            </div>
+                            <button type="button" class="btn-usar-cuenta">Usar cuenta</button>
+                        </div>
+
+                        <div class="item-cuenta-prueba" data-auto-correo="docente@educa.com" data-auto-pass="EducaDocente2026!">
+                            <div class="item-cuenta-info">
+                                <span class="item-cuenta-rol">Docente</span>
+                                <span class="item-cuenta-correo">docente@educa.com</span>
+                            </div>
+                            <button type="button" class="btn-usar-cuenta">Usar cuenta</button>
+                        </div>
+
+                        <div class="item-cuenta-prueba" data-auto-correo="admin@educa.com" data-auto-pass="EducaAdmin2026!">
+                            <div class="item-cuenta-info">
+                                <span class="item-cuenta-rol">Administrador</span>
+                                <span class="item-cuenta-correo">admin@educa.com</span>
+                            </div>
+                            <button type="button" class="btn-usar-cuenta">Usar cuenta</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
     </main>
 
+    <script type="module" src="js/main.js"></script>
     <script type="module" src="js/login.js"></script>
 </body>
 </html>
