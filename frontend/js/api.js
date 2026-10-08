@@ -6,6 +6,7 @@
 const BASE_API = 'http://localhost:3000/api';
 const CLAVE_TOKEN = 'educa:csrf';
 const CLAVE_SESION_DEMO = 'educa:sesion_demo';
+const MODO_DEMO = !['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 let tokenCsrf = null;
 try {
@@ -446,6 +447,10 @@ const USUARIOS_DEMO = {
  * Motor de peticiones HTTP con fallback automático y seguro
  * ------------------------------------------------------------------ */
 async function peticion(metodo, ruta, cuerpo = null) {
+  if (MODO_DEMO) {
+    return procesarFallbackLocal(metodo, ruta, cuerpo);
+  }
+
   const cabeceras = { Accept: 'application/json' };
   if (cuerpo !== null) cabeceras['Content-Type'] = 'application/json';
   if (tokenCsrf && metodo !== 'GET') cabeceras['X-CSRF-Token'] = tokenCsrf;
@@ -484,7 +489,6 @@ async function peticion(metodo, ruta, cuerpo = null) {
     return cuerpoRespuesta;
   } catch (err) {
     if (err instanceof ErrorApi) throw err;
-    // Fallback cuando el servidor backend local aún no ha sido encendido
     return procesarFallbackLocal(metodo, ruta, cuerpo);
   }
 }
@@ -613,6 +617,20 @@ function procesarFallbackLocal(metodo, ruta, cuerpo) {
  * ------------------------------------------------------------------ */
 
 export async function obtenerSesion() {
+  if (MODO_DEMO) {
+    try {
+      const guardada = localStorage.getItem(CLAVE_SESION_DEMO);
+      if (guardada) {
+        const sesionDemo = JSON.parse(guardada);
+        if (sesionDemo?.csrfToken) establecerTokenCsrf(sesionDemo.csrfToken);
+        return sesionDemo;
+      }
+    } catch {
+      /* memoria */
+    }
+    return { autenticado: false, usuario: null };
+  }
+
   try {
     const cabeceras = tokenCsrf ? { 'X-CSRF-Token': tokenCsrf } : {};
     const respuesta = await fetch(BASE_API + '/auth/yo', {
